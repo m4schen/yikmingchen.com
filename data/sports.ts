@@ -25,49 +25,41 @@ export const athlete: Athlete[] = [
     name: 'Max Verstappen',
     sport: 'Formula 1',
     team: 'Red Bull Racing',
-    link: 'https://www.verstappen.com',
   },
   {
     name: 'Bernado Silva',
     sport: 'Soccer',
     team: 'Manchester City',
-    link: 'https://www.mancity.com/players/bernardo-silva',
   },
   {
     name: 'Lionel Messi',
     sport: 'Soccer',
     team: 'Inter Miami',
-    link: 'https://www.intermiamicf.com/players/lionel-messi',
   },
   {
     name: 'Cristiano Ronaldo',
     sport: 'Soccer',
     team: 'Al Nassr',
-    link: 'https://www.manutd.com/en/players-and-staff/detail/cristiano-ronaldo',
   },
   {
     name: 'Kevin De Bruyne',
     sport: 'Soccer',
     team: 'Napoli',
-    link: 'https://www.mancity.com/mancitylegends/kevin-de-bruyne',
   },
   {
     name: 'Hasegawa Yui',
     sport: 'Soccer',
     team: 'Manchester City Women',
-    link: 'https://www.mancity.com/players/yui-hasegawa',
   },
   {
     name: 'Rodri',
     sport: 'Soccer',
     team: 'Manchester City',
-    link: 'https://www.mancity.com/players/rodrigo',
   },
   {
     name: 'Pedri',
     sport: 'Soccer',
     team: 'FC Barcelona',
-    link: 'https://www.fcbarcelona.com/en/football/first-team/players/70486/pedro-gonzalez-lopez',
   },
 ]
 
@@ -101,7 +93,6 @@ export const coach: Coach[] = [
     name: 'Pep Guardiola',
     sport: 'Soccer',
     team: 'Manchester City',
-    link: 'https://www.mancity.com/players/pep-guardiola',
   },
 ]
 

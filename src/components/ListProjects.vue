@@ -88,7 +88,7 @@ function slug(name: string) {
           </div>
           <div class="flex-auto">
             <div class="text-normal">{{ item.name }}</div>
-            <div class="desc text-sm opacity-50 font-normal" v-html="item.desc" />
+            <div v-if="item.excerpt" class="desc text-sm opacity-50 font-normal" v-html="item.excerpt" />
           </div>
         </a>
       </div>

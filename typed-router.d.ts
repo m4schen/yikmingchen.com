@@ -65,6 +65,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/genki': RouteRecordInfo<
+      '/genki',
+      '/genki',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/index-zh': RouteRecordInfo<
       '/index-zh',
       '/index-zh',
@@ -237,6 +244,12 @@ declare module 'vue-router/auto-routes' {
     'pages/demos.md': {
       routes:
         | '/demos'
+      views:
+        | never
+    }
+    'pages/genki.md': {
+      routes:
+        | '/genki'
       views:
         | never
     }

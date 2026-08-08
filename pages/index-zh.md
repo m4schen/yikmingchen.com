@@ -1,7 +1,7 @@
 ---
 title: 陈奕铭
 description: 陈奕铭的个人主页
-image: https://antfu.me/og.png
+image: https://yikmingchen.com/og.png
 art: random
 ---
 

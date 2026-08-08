@@ -47,6 +47,7 @@ export default defineConfig({
     presetAttributify(),
     presetWind3(),
     presetWebFonts({
+      provider: 'bunny',
       fonts: {
         sans: 'Inter',
         mono: 'DM Mono',

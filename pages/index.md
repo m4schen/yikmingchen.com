@@ -1,6 +1,7 @@
 ---
-title: Yiming Chen
-description: Yiming Chen's Personal Homepage
+title: Mason (Yiming) Chen
+description: Mason (Yiming) Chen's Personal Homepage
+image: https://yikmingchen.com/og.png
 art: random
 ---
 
@@ -12,7 +13,7 @@ art: random
   </a>
 </div>
 
-Hey! I'm <ruby lang="zh">Yiming Chen<rp>(</rp><rt>陈奕铭</rt><rp>)</rp></ruby>, a second-year M.S.E. student in Computer Science at [Johns Hopkins University](https://www.jhu.edu).
+Hey! I'm <ruby lang="zh">Mason (Yiming) Chen<rp>(</rp><rt>陈奕铭</rt><rp>)</rp></ruby>, a second-year M.S.E. student in Computer Science at [Johns Hopkins University](https://www.jhu.edu).
 
 Assisting with {ARCADE Lab} \ Computer Vision CA at {JHU}<br>
 
@@ -50,7 +51,7 @@ Find me on
 
 Or mail me at <span font-mono>hi<span i-carbon-at/>yikmingchen.com</span>
 
-<span op50>(</span> Inactive on <span flex="~ inline gap-2 wrap"><a href="https://x.com/antfu7" target="_blank"><span op75 i-ri-twitter-x-fill /> Twitter</a>
+<span op50>(</span> Inactive on <span flex="~ inline gap-2 wrap">
 <a href="https://www.zhihu.com/people/xuanquanchan" target="_blank"><span op75 i-simple-icons-zhihu /> 知乎</a>
 </span> <span op50>)</span>
 

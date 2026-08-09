@@ -34,7 +34,7 @@ art: random
 可以找到我的方式
 
 <p flex="~ gap-2 wrap" class="mt--2!">
-  <a href="https://github.com/xuanquanchen" target="_blank"><span op75 i-simple-icons-github /> GitHub</a>
+  <a href="https://github.com/m4schen" target="_blank"><span op75 i-simple-icons-github /> GitHub</a>
   <a href="https://www.linkedin.com/in/yiming-chen-a72145318" target="_blank"><span op75 i-simple-icons-linkedin /> LinkedIn</a>
   <a href="https://jhu.joinhandshake.com/profiles/ymchen" target="_blank"><span op75 i-simple-icons-handshake /> Handshake</a>
   <a href="https://profile.indeed.com/?hl=en_US&co=US&from=gnav-homepage&jk=1a9b8c9e5e7f2b0c" target="_blank"><span op75 i-simple-icons-indeed /> Indeed</a>

@@ -1,11 +1,11 @@
 export function getStarsRankingUrl() {
   const users = [
-    'xuanquanchen',
+    'm4schen',
   ]
 
   const repos = [
-    'xuanquanchen/Sync-Trip',
-    'xuanquanchen/JNU-Research-Urolithiasis-diagnostic-system',
+    'm4schen/Sync-Trip',
+    'm4schen/JNU-Research-Urolithiasis-diagnostic-system',
   ]
 
   const query = [

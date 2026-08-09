@@ -215,7 +215,7 @@ You can use any UnoCSS utilities directly in HTML:
 
 Use `@` prefix to mention people/organizations (auto-links):
 
-- {@xuanquanchen} - Links to your GitHub profile
+- {@m4schen} - Links to your GitHub profile
 - {@NuxtLabs} - Links to organization
 - {@antfu} - Links to Anthony Fu's profile
 

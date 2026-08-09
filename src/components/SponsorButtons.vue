@@ -12,7 +12,7 @@
   </p>
   <p flex="~ gap-2 wrap">
     <a
-      href="https://github.com/sponsors/antfu"
+      href="https://github.com/sponsors/m4schen"
       target="_blank"
       class="group btn-rose inline-block"
     >
@@ -21,7 +21,7 @@
         group-hover="i-ph-heart-fill text-rose"
         transition-all duration-200 ease-out
       />
-      Sponsor to support Anthony
+      Sponsor to support Mason
     </a>
     <a
       href="https://afdian.com/a/antfu"

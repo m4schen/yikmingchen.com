@@ -113,7 +113,7 @@ const ArtComponent = computed(() => {
       <a v-if="frontmatter.placeLink" :href="frontmatter.placeLink" target="_blank">
         {{ frontmatter.place }}
       </a>
-      <span v-else font-bold>
+      <span v-else font-semibold>
         {{ frontmatter.place }}
       </span>
     </p>
@@ -133,7 +133,7 @@ const ArtComponent = computed(() => {
   <article
     ref="content"
     :lang="frontmatter.lang"
-    :class="[frontmatter.tocAlwaysOn ? 'toc-always-on' : '', frontmatter.class]"
+    :class="frontmatter.class"
   >
     <slot />
   </article>

@@ -14,6 +14,8 @@
 //   - size budgets for JS / CSS / HTML / images
 //   - privacy: drafts not deployed; no email addresses, machine paths, source maps or
 //     dot-directories; no identifying image metadata (GPS, camera, author, XMP...)
+//   - style (docs/style-guide.md): only Inter / DM Mono / Roboto Condensed at weights
+//     <= 600 ship, and the TOC sidebar appears only on pages whose source has [[toc]]
 import { Buffer } from 'node:buffer'
 import { readFileSync, statSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
@@ -202,7 +204,31 @@ for (const { file, size } of assets) {
     error(`${file} is ${kb(size)} (budget ${kb(BUDGET.image)}) -- photos: \`pnpm organize-photos\`, other images: \`pnpm compress\``)
 }
 
-// 5. Privacy: nothing personal that the author didn't put on a page on purpose
+// 5. Style: the fonts that ship, and the TOC
+const FONT_FAMILIES = ['Inter', 'DM Mono', 'Roboto Condensed']
+for (const cssFile of await fg('assets/*.css', { cwd: DIST, absolute: true })) {
+  const css = readFileSync(cssFile, 'utf-8')
+  for (const [, face] of css.matchAll(/@font-face\{([^}]*)\}/g)) {
+    const family = face.match(/font-family:"?([^";]+)/)?.[1]
+    const weight = Number(face.match(/font-weight:(\d+)/)?.[1] ?? 400)
+    if (family && !FONT_FAMILIES.includes(family))
+      error(`${relative(DIST, cssFile)}: ships font "${family}" -- the guide allows ${FONT_FAMILIES.join(', ')}`)
+    if (weight > 600)
+      error(`${relative(DIST, cssFile)}: ships ${family} ${weight} -- nothing above 600`)
+  }
+}
+// [[toc]] in markdown, or <ListProjects>, which lists its categories the same way
+const tocSources = new Set(pageFiles.filter(f => /\[\[toc\]\]|<ListProjects/.test(readFileSync(f, 'utf-8'))).map(f => f
+  .replace(/^pages/, '')
+  .replace(/\.(?:md|vue)$/, '')
+  .replace(/\/index$/, '') || '/'))
+for (const file of htmlFiles) {
+  const path = urlToPath(file)
+  if (readFileSync(file, 'utf-8').includes('class="table-of-contents"') && !tocSources.has(path))
+    error(`${path}: renders a TOC sidebar but its source has no [[toc]]`)
+}
+
+// 6. Privacy: nothing personal that the author didn't put on a page on purpose
 const IDENTIFYING_TAGS = /^(?:Make|Model|LensModel|Software|Artist|Copyright|HostComputer|ImageDescription|UserComment|DateTimeOriginal|DateTimeDigitized|BodySerialNumber|SerialNumber|CameraOwnerName|OwnerName)$/
 function imageMetadata(buffer: Buffer): string[] {
   let tags: Record<string, Record<string, any>>

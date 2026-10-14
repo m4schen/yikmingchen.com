@@ -100,29 +100,33 @@
 .prose blockquote p:last-of-type::after {
   content: close-quote;
 }
+/* Headings: calm weights (docs/style-guide.md#typography); nothing above 600 ships */
 .prose h1 {
   color: var(--fg-deeper);
-  font-weight: 800;
-  font-size: 2.25em;
+  font-weight: 600;
+  font-size: 2em;
+  letter-spacing: -0.015em;
   margin-top: 0;
   margin-bottom: 0.8888889em;
-  line-height: 1.1111111;
+  line-height: 1.2;
 }
 .prose h2 {
   color: var(--fg-deep);
-  font-weight: 700;
-  font-size: 1.5em;
-  margin-top: 2em;
+  font-weight: 600;
+  font-size: 1.375em;
+  letter-spacing: -0.01em;
+  margin-top: 2.4em;
   margin-bottom: 1em;
-  line-height: 1.3333333;
+  line-height: 1.35;
 }
 .prose h3 {
   color: inherit;
-  font-weight: 600;
-  font-size: 1.25em;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 1.125em;
   margin-top: 1.6em;
   margin-bottom: 0.6em;
-  line-height: 1.6;
+  line-height: 1.5;
   opacity: 0.7;
 }
 .prose h4 {
@@ -133,15 +137,17 @@
   line-height: 1.5;
 }
 .prose figure figcaption {
-  color: #6b7280;
-  font-size: 0.875em;
-  line-height: 1.4285714;
-  margin-top: 0.8571429em;
+  color: var(--fg-light);
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: center;
+  max-width: 65ch;
+  margin: 0.75em auto 0;
 }
 .prose code {
   --uno: font-mono;
   color: var(--fg-deep);
-  font-weight: 500;
+  font-weight: 400;
   font-size: 0.92em;
   background-color: #aaaaaa18;
   border-radius: 0.25rem;
@@ -190,6 +196,13 @@
   font-size: 0.875em;
   line-height: 1.7142857;
 }
+/* On narrow screens a wide table scrolls inside the column instead of being clipped */
+@media (max-width: 767px) {
+  .prose table {
+    display: block;
+    overflow-x: auto;
+  }
+}
 .prose thead {
   color: var(--fg-deep);
   font-weight: 600;
@@ -235,6 +248,24 @@
 .prose figure {
   margin-top: 2em;
   margin-bottom: 2em;
+}
+/* A captioned figure may widen past the text column, centered, without transforms
+   (slide-enter animates transform). It stops short of a visible TOC. */
+.prose figure:has(figcaption) {
+  --figure-width: min(52rem, calc(100vw - 4rem));
+  width: var(--figure-width);
+  max-width: none;
+  margin-left: calc((100% - var(--figure-width)) / 2);
+  margin-right: calc((100% - var(--figure-width)) / 2);
+}
+@media (min-width: 1280px) {
+  .prose:has(.table-of-contents) figure:has(figcaption) {
+    --figure-width: min(52rem, calc(100vw - 2 * 260px));
+  }
+}
+.prose figure img {
+  width: 100%;
+  border-radius: 4px;
 }
 .prose figure > * {
   margin-top: 0;

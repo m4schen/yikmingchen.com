@@ -6,7 +6,7 @@ art: random
 
 <div op50 text-sm mb-4 flex items-center gap-2>
   <span i-ri-translate />
-  <span>其他语言:</span>
+  <span>其他语言：</span>
   <a href="/" font-semibold op75 hover:op100 transition>
     English
   </a>
@@ -16,7 +16,7 @@ art: random
 
 曾任 {ARCADE Lab} 研究助理 \ {JHU} 计算机视觉课程助教<br>
 
-<span text-blue-500 font-semibold>我正在积极寻找机器学习工程师（ML Engineering）的工作机会——如果你知道任何有趣的机会，非常欢迎随时联系我。</span>
+**我正在积极寻找机器学习工程师（ML Engineering）的工作机会——如果你知道任何有趣的机会，非常欢迎随时联系我。**
 
 我最近在 ARCADE Lab 参与了手术机器人相关的研究项目，主要致力于开发基于 Transformer 的视频时序动作检测端到端流水线。此前，我在 [暨南大学](https://www.jnu.edu.cn) 完成了本科阶段的学习，在 [崔林博士](https://cuilin.antlab.network) 的指导下，我完成了关于可编程交换机机器学习的毕业论文。
 
@@ -45,10 +45,10 @@ art: random
 
 或者直接邮件我 <span font-mono>hi<span i-carbon-at/>yikmingchen.com</span>
 
-<span op50>(</span> 目前不活跃于 <span flex="~ inline gap-2 wrap">
+<span op50>（</span>目前不活跃于 <span flex="~ inline gap-2 wrap">
 <a href="https://x.com/XuanQuan369" target="_blank"><span op75 i-ri-twitter-x-fill /> X(Twitter)</a>
 <a href="https://www.zhihu.com/people/xuanquanchan" target="_blank"><span op75 i-simple-icons-zhihu /> 知乎</a>
-</span> <span op50>)</span>
+</span><span op50>）</span>
 
 ---
 

@@ -29,7 +29,8 @@ need a fresh `pnpm build` first.
 pnpm serve:dist   # http://127.0.0.1:4173, same URL rules as GitHub Pages
 ```
 
-Open the routes you touched, in light and dark mode and at about 375px wide. Use
+Open the routes you touched, in light and dark mode and at about 375px wide. Check
+them against `docs/style-guide.md` (its reference images live in `docs/style/`). Use
 `docs/feature-map.md` to find how a feature is reached and what it depends on.
 
 ## 3. Measure it, if it could affect speed

@@ -25,8 +25,8 @@ One-time setup for e2e: `pnpm exec playwright install chromium`.
 ## Definition of done
 
 A change is done when `pnpm check` passes. A clean compile is not enough. If the
-change is visible, also look at it on `pnpm serve:dist` (light and dark, desktop and
-~375px wide). If the change could affect speed, paste `pnpm perf` numbers from before
+change is visible, it follows `docs/style-guide.md`, and you have looked at it on
+`pnpm serve:dist` (light and dark, desktop and ~375px wide). If the change could affect speed, paste `pnpm perf` numbers from before
 and after. `.claude/skills/verify-site/SKILL.md` has the full procedure.
 
 When a check fails, fix the cause. Don't loosen a size budget in
@@ -47,6 +47,9 @@ commit.
   (`verify-dist.ts`, `serve-dist.ts`, `perf.ts`). `tests/e2e/` holds the browser tests.
 - `docs/feature-map.md` covers every page and site-wide feature: source, how to
   reach it, how to verify it, and traps. **Read it before changing behavior.**
+- `docs/style-guide.md` covers how the site looks and reads: layout, type, color,
+  images, motion and writing. **Read it before changing anything visible or
+  writing copy.**
 
 ## Paved roads
 
@@ -73,7 +76,7 @@ a row to `docs/feature-map.md`.
 
 **New component.** Add `src/components/<PascalName>.vue` using `<script setup lang="ts">`
 and UnoCSS utilities (attributify is on: `<div flex gap-2>`). Look at `ListPosts.vue`
-or `PhotoGrid.vue` for the house style.
+or `PhotoGrid.vue` for the house style, and follow `docs/style-guide.md`.
 
 **Photos.** Put JPG/PNG files in `photos/` and run `pnpm organize-photos`. It renames
 them to `p-<capture time>-000-N.jpg`, compresses them to 1440px with metadata (GPS)

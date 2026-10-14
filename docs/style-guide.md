@@ -8,22 +8,6 @@ tones instead of color for hierarchy, and playful art kept in the background.
 Every rule below has a reason. If a change needs to break one, change this file in
 the same PR and say why.
 
-## Not implemented yet
-
-The site still renders the antfu template's styles in these places. The restyle PR
-fixes them and deletes this section. Until then, follow the guide for new work and
-don't copy the old values.
-
-- Only Inter 400 ships, so headings render with a fake (synthesized) bold.
-- Headings use weights 800 and 700, and `*emphasis*` renders in a serif italic.
-- The TOC hides behind an icon instead of sitting in the margin.
-- Figures stay inside the text column.
-- Links use a bottom border; body text is `#555`.
-- Hue colors: the "ML engineering opportunities" line on `/` and `/index-zh`
-  (`text-blue-500`), and the blue hover on the GitHub button in `ListProjects.vue`.
-- Half-width punctuation in `pages/posts/note-preference-on-rental.md`.
-- The checks under "Enforcement" don't exist yet.
-
 ## Principles
 
 1. **Text first.** A page is a column of readable text. Everything else supports it.
@@ -42,7 +26,10 @@ don't copy the old values.
 - **Full-width pages** opt in with `<!-- @layout-full-width -->` (Projects, Photos).
 - **Table of contents:** only when the article contains `[[toc]]`. It sits in the
   left margin on screens 1280px and wider and is hidden below that. An article
-  without `[[toc]]` has no sidebar at all.
+  without `[[toc]]` has no sidebar at all. Projects lists its categories the same
+  way, once it has two or more.
+- **Tables** keep the column width; below 768px a wide table scrolls sideways inside
+  the column instead of being cut off.
 - **Wide figures:** a figure with a caption may widen to `52rem` (about 830px),
   centered. While a TOC is showing, it stops 260px short of each viewport edge, so
   it never runs under the TOC.
@@ -57,8 +44,8 @@ Three families, each with one job:
 - **Roboto Condensed** only for special compact elements, today the magic-link
   chips (`{ARCADE Lab}`, `{JHU}`). Don't use it anywhere else.
 
-Weights: **400, 500 and 600 only**, plus italic. Nothing ships heavier, so nothing
-may ask for more. `<strong>` and `**bold**` are 600.
+Weights: **400, 500 and 600 only**, plus italic 400 and 500. Nothing ships
+heavier, so nothing may ask for more. `<strong>`, `**bold**` and table headers are 600.
 
 | Role                 | Size           | Weight     | Line height | Notes                           |
 | -------------------- | -------------- | ---------- | ----------- | ------------------------------- |
@@ -67,8 +54,8 @@ may ask for more. `<strong>` and `**bold**` are 600.
 | Section (h2)         | 1.375em (22px) | 600        | 1.35        | Tracking `-0.01em`              |
 | Subsection (h3)      | 1.125em (18px) | 500 italic | 1.5         |                                 |
 | Meta (date, reading) | 1em            | 400        |             | 50% opacity                     |
-| Caption              | 13px           | 400        | 1.45        | `#8a8a8a`, centered             |
-| Inline code          | 0.92em         | 500        |             | DM Mono                         |
+| Caption              | 13px           | 400        | 1.45        | `--fg-light` (`#888`), centered |
+| Inline code          | 0.92em         | 400        |             | DM Mono                         |
 
 - `*emphasis*` is Inter italic, not a serif.
 - **Chinese** uses the system font after Inter: PingFang SC, Hiragino Sans GB,
@@ -89,8 +76,9 @@ may ask for more. `<strong>` and `**bold**` are 600.
 
 ## Links and navigation
 
-- **Inline links** use the strong text color with a 1px underline at
-  `rgba(125, 125, 125, 0.4)`, offset 3px. On hover the underline turns solid.
+- **Inline links** use the strong text color and the surrounding weight, with a 1px
+  underline at `rgba(125, 125, 125, 0.4)`, offset 3px. On hover the underline turns
+  solid. Links styled as tabs or buttons opt out with `no-underline!`.
   External links open in a new tab; markdown does this automatically.
 - **People and organizations** use magic links (`{Name}`), defined in
   `vite.config.ts`.
@@ -142,17 +130,24 @@ may ask for more. `<strong>` and `**bold**` are 600.
 
 ## Enforcement
 
-These checks land with the restyle PR and run in `pnpm check`:
+The mechanical rules are checked; `pnpm check` and CI fail when one breaks.
 
-- No hue color utilities or hex colors in `pages/` and `src/components/`, except
-  where color carries meaning (listed under Color).
-- No font weight above 600 in CSS or utilities (`font-bold`, `font-800`...).
-- Only the three font families above.
-- The TOC sidebar renders only on pages that contain `[[toc]]`.
+- `pnpm lint:style` (`scripts/check-style.ts`) reads the source: no hue color
+  utilities and no chromatic hex colors in pages and components, no weight above
+  600, only the three font families (condensed only for magic links), and the
+  Chinese punctuation and spacing rules. Its exceptions are listed at the top of the
+  script, each with a reason.
+- `pnpm verify` reads the built site: only Inter, DM Mono and Roboto Condensed at
+  weights up to 600 ship, and a TOC sidebar appears only on pages that ask for one.
+- `pnpm test:e2e` checks the margin TOC, scrolling tables on phones, and the
+  reduced-motion still frame of the dots background.
 
 ## Reference
 
-`docs/style/c-vs-today-light.webp` and `-dark.webp` compare today's CSS (left, drawn
-with real font weights) against this guide's target (right) on a real post. The photo
-and TOC were inserted for the comparison. Check a visible change against them, and
-on `pnpm serve:dist` in light and dark mode at about 375px wide.
+`docs/style/c-vs-today-light.webp` and `-dark.webp` record how this style was
+chosen: the old antfu-template styles (left) against the C prototype (right), on a
+real post with a photo and TOC inserted. The site now looks like the right side.
+
+To check a visible change, look at it on `pnpm serve:dist` in light and dark mode
+and at about 375px wide, or run `pnpm shots --no-art --out .perf/shots/before`
+before the change and `--out .perf/shots/after` after it, and compare the pairs.

@@ -16,11 +16,11 @@ function slug(name: string) {
         <a
           href="https://github.com/m4schen"
           target="_blank"
-          class="group btn-blue inline-block"
+          class="group btn-gray inline-block"
         >
           <div
             i-ph-github-logo-duotone
-            group-hover="i-ph-github-logo-fill text-blue"
+            group-hover="i-ph-github-logo-fill"
           />
           GitHub
         </a>
@@ -39,7 +39,7 @@ function slug(name: string) {
           '--enter-step': '60ms',
         }"
       >
-        <span text-5em color-transparent absolute left--1rem top-0rem font-bold leading-1em text-stroke-1.5 text-stroke-hex-aaa op35 dark:op20>{{ key }}</span>
+        <span text-5em color-transparent absolute left--1rem top-0rem font-semibold leading-1em text-stroke-1.5 text-stroke-hex-aaa op35 dark:op20>{{ key }}</span>
       </div>
       <div
         class="project-grid py-2 max-w-500 w-max mx-auto"
@@ -64,7 +64,8 @@ function slug(name: string) {
       </div>
     </div>
   </div>
-  <div>
+  <!-- Category list in the margin, like [[toc]]; pointless with a single category -->
+  <div v-if="Object.keys(projects).length > 1">
     <div class="table-of-contents">
       <div class="table-of-contents-anchor">
         <div class="i-ri-menu-2-fill" />

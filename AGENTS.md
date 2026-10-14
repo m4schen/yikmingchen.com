@@ -10,14 +10,16 @@ Pages from `.github/workflows/ci.yml` on every push to `main`. It started as a f
 ```sh
 pnpm install          # Node 24 LTS (.nvmrc); pnpm version pinned by "packageManager"
 pnpm dev              # http://localhost:3333 with hot reload
-pnpm check            # everything CI runs: lint -> build -> typecheck -> verify -> test:e2e
+pnpm check            # everything CI runs: lint -> lint:style -> build -> typecheck -> verify -> test:e2e
 pnpm lint --fix       # ESLint (@antfu/eslint-config) also formats; there is no Prettier
+pnpm lint:style       # docs/style-guide.md rules: colors, weights, fonts, Chinese punctuation
 pnpm build            # -> dist/, byte-for-byte what gets deployed
 pnpm typecheck        # vue-tsc; needs the .d.ts files a build or dev run generates
 pnpm verify           # checks dist/: every page rendered, links, og images, size budgets
 pnpm test:e2e         # Playwright against dist/ served with GitHub Pages rules
 pnpm serve:dist       # browse the real artifact at http://127.0.0.1:4173
 pnpm perf [routes]    # CPU / fps / bytes per page (--mobile, --cpu 4); before and after perf work
+pnpm shots [routes]   # light / dark / phone screenshots (--no-art, --full, --out dir) to compare
 ```
 
 One-time setup for e2e: `pnpm exec playwright install chromium`.

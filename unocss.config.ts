@@ -48,8 +48,9 @@ export default defineConfig({
     presetWind3(),
     presetWebFonts({
       provider: 'bunny',
+      // Exactly the styles docs/style-guide.md allows; nothing heavier than 600 ships
       fonts: {
-        sans: 'Inter',
+        sans: { name: 'Inter', weights: ['400', '500', '600', '400i', '500i'] },
         mono: 'DM Mono',
         condensed: 'Roboto Condensed',
       },

@@ -58,6 +58,32 @@ test('unknown URLs get the site 404 page with status 404', async ({ page }) => {
   expect(errors).toEqual([])
 })
 
+test('the margin TOC shows only where the page has [[toc]], on wide screens', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await visit(page, '/use') // pages/use.md has [[toc]]
+  await expect(page.locator('.table-of-contents')).toBeVisible()
+  await expect(page.locator('.table-of-contents a').first()).toBeVisible()
+
+  await page.setViewportSize({ width: 1024, height: 800 })
+  await expect(page.locator('.table-of-contents')).toBeHidden()
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await visit(page, '/posts/cpp-acm-mod') // no [[toc]]
+  await expect(page.locator('.table-of-contents')).toHaveCount(0)
+})
+
+test('wide tables scroll instead of being cut off on a phone', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await visit(page, '/posts/cpp-stl-notes')
+  const table = page.locator('.prose table').first()
+  const { scrollable, fits } = await table.evaluate(t => ({
+    scrollable: t.scrollWidth > t.clientWidth && getComputedStyle(t).overflowX === 'auto',
+    fits: t.getBoundingClientRect().right <= window.innerWidth,
+  }))
+  expect(fits).toBe(true)
+  expect(scrollable).toBe(true)
+})
+
 test('[TEMPLATE] posts are not deployed', async ({ page }) => {
   // In dev, pages/posts/[TEMPLATE]-blog-example.md would match this URL
   const response = await visit(page, '/posts/anything-blog-example')

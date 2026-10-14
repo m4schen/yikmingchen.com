@@ -30,6 +30,7 @@ Every page is reachable from `/`; `pnpm verify` warns about any page that isn't.
 - **Dark mode** (`ToggleTheme.vue` -> `toggleDark()` in `src/logics/index.ts`): View Transition circle reveal. Stored in localStorage `vueuse-color-scheme`. The inline script in `index.html` applies it before first paint. e2e: "theme toggle".
 - **"English only"** (`SubNav.vue`, `englishOnly` in `src/logics/index.ts`): localStorage `yikmingchen-english-only`. Hides posts whose `lang` isn't `en`; untagged posts count as English.
 - **Background art** (frontmatter `art:` -> `WrapperPost.vue`): `plum` -> `ArtPlum.vue` (2D canvas, stops once grown). `dots` -> `ArtDots.vue` (2D canvas, 20 fps; one still frame under reduced motion). `random` picks one per visit. See "Performance" below. e2e: "dots background".
+- **Margin TOC** (`.table-of-contents` in `src/styles/markdown.css`): rendered by `[[toc]]` in markdown (and by `ListProjects.vue` with 2+ categories). Visible at 1280px+, hidden below; pages without one have no sidebar. e2e: "margin TOC".
 - **Image preview** (`src/App.vue`): Clicking any `<img>` inside `.prose` or `.photos` opens it full-screen; arrow keys move through `data-photo-index`, Esc closes. Add class `no-preview` to opt out. e2e: "photos open in a preview".
 - **Footer** (`Footer.vue`): Licence line. Hidden by frontmatter `class: no-copyright`.
 - **Page transitions** (`.slide-enter*` in `src/styles/main.css`): Staggered fade-in. Disabled under `prefers-reduced-motion`.
@@ -52,6 +53,8 @@ Every page is reachable from `/`; `pnpm verify` warns about any page that isn't.
    it after renaming a title or changing the template.
 4. Fonts: UnoCSS web fonts (bunny.net) are cached into `public/assets/fonts`, which
    needs network on a clean checkout. `scripts/copy-fonts.ts` copies them into `dist/`.
+   Inter ships 400/500/600 plus italic 400/500, DM Mono and Roboto Condensed 400
+   only (about 24 kB per style for Latin). Browsers fetch only the styles a page uses.
 5. `scripts/rss.ts` writes the feeds, and CNAME is copied into `dist/`.
 
 ## Performance

@@ -15,7 +15,7 @@ const type = computed<MediaType>(() => route.query.type as MediaType || 'anime')
         :key="t"
         :to="{ query: { type: t } }"
         px-2
-        class="border-none!"
+        class="no-underline!"
         :class="type === t ? 'bg-black dark:bg-white text-white! dark:text-black!' : ''"
       >
         {{ t }}

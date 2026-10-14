@@ -171,15 +171,16 @@ Using UnoCSS icon classes:
 
 #### UnoCSS Utility Classes
 
-You can use any UnoCSS utilities directly in HTML:
+You can use any UnoCSS utilities directly in HTML. Keep to the style guide
+(docs/style-guide.md): monochrome, weights up to 600.
 
-<div class="text-blue-500 font-bold text-lg">
-  This text is blue, bold, and large
+<div class="font-semibold text-lg">
+  This text is semibold and large
 </div>
 
 <div class="flex gap-4 items-center">
-  <div i-ri-checkbox-circle-line text-green-500 text-2xl />
-  <span>Feature completed succssfully</span>
+  <div i-ri-checkbox-circle-line op75 text-2xl />
+  <span>Feature completed successfully</span>
 </div>
 
 ---
@@ -249,18 +250,18 @@ The system automatically converts these to clickable links if profiles are found
 
 ### 9. HTML in Markdown
 
+For callouts, use a GitHub alert instead of custom HTML. Alerts are the one place
+color is allowed:
+
+> [!WARNING]
+> This is an important notice.
+
 You can write raw HTML when needed:
 
-<div class="bg-yellow-100 border border-yellow-400 p-4 rounded">
-  <strong>⚠️ Warning:
-</strong> This is an important notice using HTML.
-</div>
-
-<div class="flex items-center justify-between p-4 bg-blue-50 rounded">
+<div class="flex items-center justify-between p-4 border border-base rounded">
   <span>Custom HTML component</span>
-  <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+  <button class="btn-gray">
     Action
-
   </button>
 </div>
 

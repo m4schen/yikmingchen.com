@@ -16,7 +16,7 @@ Hey! I'm <ruby lang="zh">Mason (Yiming) Chen<rp>(</rp><rt>陈奕铭</rt><rp>)</r
 
 Previously a Research Assistant at {ARCADE Lab} \ Computer Vision CA at {JHU}<br>
 
-<span text-blue-500 font-semibold> I'm actively exploring ML engineering opportunities—if you know of anything interesting, I'd love to hear about it.</span>
+**I'm actively exploring ML engineering opportunities—if you know of anything interesting, I'd love to hear about it.**
 
 I recently worked on surgical robotics research projects, specifically developing Transformer-based end-to-end pipelines for video temporal action detection at the ARCADE Lab. Previously, I completed my undergraduate studies at [Jinan University](https://english.jnu.edu.cn), where I completed my graduation thesis about machine learning in programmable switches under the supervision of [Dr. Lin Cui](https://cuilin.antlab.network).
 

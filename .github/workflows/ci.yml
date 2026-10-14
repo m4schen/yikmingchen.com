@@ -35,6 +35,8 @@ jobs:
 
       - run: pnpm lint
 
+      - run: pnpm lint:style
+
       # UnoCSS downloads web fonts from bunny.net when these are missing; caching
       # them keeps builds off the network unless the font config changes
       - name: Cache web fonts

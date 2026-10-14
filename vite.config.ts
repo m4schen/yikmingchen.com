@@ -2,7 +2,6 @@ import { Buffer } from 'node:buffer'
 import { basename, dirname, resolve } from 'node:path'
 import MarkdownItShiki from '@shikijs/markdown-it'
 import { transformerNotationDiff, transformerNotationHighlight, transformerNotationWordHighlight } from '@shikijs/transformers'
-import { rendererRich, transformerTwoslash } from '@shikijs/twoslash'
 import Vue from '@vitejs/plugin-vue'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
@@ -24,10 +23,10 @@ import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
 import Inspect from 'vite-plugin-inspect'
 import Exclude from 'vite-plugin-optimize-exclude'
-import SVG from 'vite-svg-loader'
 import { slugify } from './scripts/slugify'
 
 const promises: Promise<any>[] = []
+const isProduction = process.env.NODE_ENV === 'production'
 
 export default defineConfig({
   resolve: {
@@ -50,7 +49,8 @@ export default defineConfig({
     VueRouter({
       extensions: ['.vue', '.md'],
       routesFolder: 'pages',
-      // logs: true,
+      // Production builds drop routes (below), so only dev keeps typed-router.d.ts current
+      dts: isProduction ? false : 'typed-router.d.ts',
       extendRoute(route) {
         const path = route.components.get('default')
         if (!path)
@@ -58,6 +58,11 @@ export default defineConfig({
 
         if (!path.includes('projects.md') && path.endsWith('.md')) {
           const { data } = matter(fs.readFileSync(path, 'utf-8'))
+          // The site is public: drafts and [TEMPLATE] posts are dev-only and never deployed
+          if (isProduction && (data.draft || path.includes('[TEMPLATE]'))) {
+            route.delete()
+            return
+          }
           route.addToMeta({
             frontmatter: data,
           })
@@ -92,10 +97,6 @@ export default defineConfig({
           defaultColor: false,
           cssVariablePrefix: '--s-',
           transformers: [
-            transformerTwoslash({
-              explicitTrigger: true,
-              renderer: rendererRich(),
-            }),
             transformerNotationDiff(),
             transformerNotationHighlight(),
             transformerNotationWordHighlight(),
@@ -137,8 +138,10 @@ export default defineConfig({
         (() => {
           if (!id.endsWith('.md'))
             return
-          const route = basename(id, '.md')
-          if (route === 'index' || frontmatter.image || !frontmatter.title)
+          // pages/posts/index.md -> "posts", so it doesn't collide with the home page's og/index.png
+          const name = basename(id, '.md')
+          const route = name === 'index' && basename(dirname(id)) !== 'pages' ? basename(dirname(id)) : name
+          if (frontmatter.image || !frontmatter.title)
             return
           const path = `og/${route}.png`
           promises.push(
@@ -179,11 +182,6 @@ export default defineConfig({
       defaultStyle: 'vertical-align: sub;',
     }),
 
-    SVG({
-      svgo: false,
-      defaultImport: 'url',
-    }),
-
     Exclude(),
 
     {
@@ -205,6 +203,9 @@ export default defineConfig({
 
   ssgOptions: {
     formatting: 'minify',
+    // Skip dynamic routes (vite-ssg default), but render the catch-all page to
+    // dist/404.html, which GitHub Pages serves for unknown URLs.
+    includedRoutes: paths => [...paths.filter(i => !i.includes(':') && !i.includes('*')), '/404'],
   },
 })
 
@@ -223,7 +224,8 @@ async function generateOg(title: string, output: string) {
     line2: lines[1],
     line3: lines[2],
   }
-  const svg = ogSVg.replace(/\{\{([^}]+)\}\}/g, (_, name) => data[name] || '')
+  const escapeXml = (s = '') => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  const svg = ogSVg.replace(/\{\{([^}]+)\}\}/g, (_, name) => escapeXml(data[name]))
 
   console.log(`Generating ${output}`)
   try {

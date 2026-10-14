@@ -5,7 +5,9 @@ import sharp from 'sharp'
 const maxSize = 1440
 
 export async function compressSharp(image: sharp.Sharp, inBuffer: Buffer, inFile: string, outFile: string) {
-  const { format, width, height } = await image.metadata()
+  const { format, width, height, exif, xmp, iptc } = await image.metadata()
+  // The output never has metadata, so a file that has some must be rewritten even when it barely shrinks
+  const hasMetadata = Boolean(exif || xmp || iptc)
   if (!format)
     throw new Error(`Could not determine format of ${inFile}`)
   if (!width || !height)
@@ -13,20 +15,24 @@ export async function compressSharp(image: sharp.Sharp, inBuffer: Buffer, inFile
   if (format !== 'jpeg' && format !== 'png' && format !== 'webp')
     throw new Error(`Unsupported format ${format} of ${inFile}`)
 
+  // Bake in the EXIF orientation, because metadata (incl. GPS location) is stripped below
+  image = image.rotate()
   if (width > maxSize || height > maxSize)
-    image = image.resize(maxSize)
+    image = image.resize({ width: maxSize, height: maxSize, fit: 'inside' })
 
   image = image[format]({
     quality: format === 'png' ? 100 : 80,
     compressionLevel: 9,
+    mozjpeg: true,
   })
 
-  const outBuffer = await image.withMetadata().toBuffer()
+  const outBuffer = await image.toBuffer()
   const size = inBuffer.byteLength
   const outSize = outBuffer.byteLength
 
   const percent = (outSize - size) / size
   return {
+    hasMetadata,
     image,
     outBuffer,
     size,
@@ -41,8 +47,8 @@ export async function compressImages(files: string[]) {
   await Promise.all(files.map(async (file) => {
     const buffer = await fs.readFile(file)
     const image = sharp(buffer)
-    const { percent, size, outSize, inFile, outFile, outBuffer } = await compressSharp(image, buffer, file, file)
-    if (percent > -0.10) {
+    const { percent, size, outSize, inFile, outFile, outBuffer, hasMetadata } = await compressSharp(image, buffer, file, file)
+    if (percent > -0.10 && !hasMetadata) {
       console.log(c.dim`[SKIP] ${bytesToHuman(size)} -> ${bytesToHuman(outSize)} ${(percent * 100).toFixed(1).padStart(5, ' ')}%  ${inFile}`)
     }
     else {

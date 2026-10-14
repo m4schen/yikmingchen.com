@@ -14,3 +14,8 @@ drafts
 *.log
 src/data/sponsors-circles.json
 public/assets/fonts
+playwright-report
+test-results
+.perf
+# Dev-only OG images for [TEMPLATE] posts (never deployed)
+public/og/\[TEMPLATE\]*

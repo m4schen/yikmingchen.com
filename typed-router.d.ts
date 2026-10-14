@@ -37,34 +37,6 @@ declare module 'vue-router/auto-routes' {
       { 404: ParamValue<false> },
       | never
     >,
-    '/bar': RouteRecordInfo<
-      '/bar',
-      '/bar',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/bookmarks': RouteRecordInfo<
-      '/bookmarks',
-      '/bookmarks',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/collective-sponsor-onetime': RouteRecordInfo<
-      '/collective-sponsor-onetime',
-      '/collective-sponsor-onetime',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/demos': RouteRecordInfo<
-      '/demos',
-      '/demos',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
     '/genki': RouteRecordInfo<
       '/genki',
       '/genki',
@@ -96,13 +68,6 @@ declare module 'vue-router/auto-routes' {
     '/photos': RouteRecordInfo<
       '/photos',
       '/photos',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/podcasts': RouteRecordInfo<
-      '/podcasts',
-      '/podcasts',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -163,30 +128,9 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sponsors-list': RouteRecordInfo<
-      '/sponsors-list',
-      '/sponsors-list',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
     '/sports': RouteRecordInfo<
       '/sports',
       '/sports',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/streams': RouteRecordInfo<
-      '/streams',
-      '/streams',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/talks': RouteRecordInfo<
-      '/talks',
-      '/talks',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -223,30 +167,6 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'pages/bar.md': {
-      routes:
-        | '/bar'
-      views:
-        | never
-    }
-    'pages/bookmarks.md': {
-      routes:
-        | '/bookmarks'
-      views:
-        | never
-    }
-    'pages/collective-sponsor-onetime.md': {
-      routes:
-        | '/collective-sponsor-onetime'
-      views:
-        | never
-    }
-    'pages/demos.md': {
-      routes:
-        | '/demos'
-      views:
-        | never
-    }
     'pages/genki.md': {
       routes:
         | '/genki'
@@ -274,12 +194,6 @@ declare module 'vue-router/auto-routes' {
     'pages/photos.md': {
       routes:
         | '/photos'
-      views:
-        | never
-    }
-    'pages/podcasts.md': {
-      routes:
-        | '/podcasts'
       views:
         | never
     }
@@ -331,27 +245,9 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'pages/sponsors-list.md': {
-      routes:
-        | '/sponsors-list'
-      views:
-        | never
-    }
     'pages/sports.md': {
       routes:
         | '/sports'
-      views:
-        | never
-    }
-    'pages/streams.md': {
-      routes:
-        | '/streams'
-      views:
-        | never
-    }
-    'pages/talks.md': {
-      routes:
-        | '/talks'
       views:
         | never
     }

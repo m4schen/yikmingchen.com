@@ -1,7 +1,6 @@
 ---
 title: 陈奕铭
 description: 陈奕铭的个人主页
-image: https://yikmingchen.com/og.png
 art: random
 ---
 
@@ -21,7 +20,7 @@ art: random
 
 我最近在 ARCADE Lab 参与了手术机器人相关的研究项目，主要致力于开发基于 Transformer 的视频时序动作检测端到端流水线。此前，我在 [暨南大学](https://www.jnu.edu.cn) 完成了本科阶段的学习，在 [崔林博士](https://cuilin.antlab.network) 的指导下，我完成了关于可编程交换机机器学习的毕业论文。
 
-我对计算机视觉、机器学习以及开发真正实用的产品充满热情。最近，我正使用 Swift 和 SwiftUI 独立开发一款名为 Genki 的纯端侧个人健康档案 iOS 应用。你可以在 [这里](/projects-zh) 查看我的完整项目列表。
+我对计算机视觉、机器学习以及开发真正实用的产品充满热情。最近，我正使用 Swift 和 SwiftUI 独立开发一款名为 Genki 的纯端侧个人健康档案 iOS 应用。你可以在 [这里](/projects) 查看我的完整项目列表。
 
 我会写些关于碎片想法、编程等内容的 [博客](/posts)。在写代码之余，我是一名业余足球爱好者、摄影爱好者和语言学习爱好者。我喜欢徒步、自驾、阅读、旅行和研究足球战术。我会在 [照片页](/photos) 分享旅途中的风景。我非常喜欢看动漫、电影和剧集——我试着在 [这里](/media) 记录我的观影足迹。我关注 F1 和足球，你可以在 [体育页](/sports) 看看我都在追什么。如果你好奇我日常都在用什么设备和软件，不妨看看我的 [装备页](/use)。
 
@@ -37,7 +36,7 @@ art: random
   <a href="https://github.com/m4schen" target="_blank"><span op75 i-simple-icons-github /> GitHub</a>
   <a href="https://www.linkedin.com/in/yiming-chen-a72145318" target="_blank"><span op75 i-simple-icons-linkedin /> LinkedIn</a>
   <a href="https://jhu.joinhandshake.com/profiles/ymchen" target="_blank"><span op75 i-simple-icons-handshake /> Handshake</a>
-  <a href="https://profile.indeed.com/?hl=en_US&co=US&from=gnav-homepage&jk=1a9b8c9e5e7f2b0c" target="_blank"><span op75 i-simple-icons-indeed /> Indeed</a>
+  <a href="https://profile.indeed.com/" target="_blank"><span op75 i-simple-icons-indeed /> Indeed</a>
   <a href="https://leetcode.com/u/xuanquanchen/" target="_blank"><span op75 i-simple-icons-leetcode /> LeetCode (US)</a>
   <a href="https://huggingface.co/xuanquanchen" target="_blank"><span op75 i-simple-icons-huggingface /> Hugging Face</a>
   <a href="https://www.kaggle.com/yikmingchen" target="_blank"><span op75 i-devicon-kaggle /> Kaggle</a>

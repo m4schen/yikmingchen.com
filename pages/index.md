@@ -1,7 +1,6 @@
 ---
 title: Mason (Yiming) Chen
 description: Mason (Yiming) Chen's Personal Homepage
-image: https://yikmingchen.com/og.png
 art: random
 ---
 
@@ -37,7 +36,7 @@ Find me on
   <a href="https://github.com/m4schen" target="_blank"><span op75 i-simple-icons-github /> GitHub</a>
   <a href="https://www.linkedin.com/in/yiming-chen-a72145318" target="_blank"><span op75 i-simple-icons-linkedin /> LinkedIn</a>
   <a href="https://jhu.joinhandshake.com/profiles/ymchen" target="_blank"><span op75 i-simple-icons-handshake /> Handshake</a>
-  <a href="https://profile.indeed.com/?hl=en_US&co=US&from=gnav-homepage&jk=1a9b8c9e5e7f2b0c" target="_blank"><span op75 i-simple-icons-indeed /> Indeed</a>
+  <a href="https://profile.indeed.com/" target="_blank"><span op75 i-simple-icons-indeed /> Indeed</a>
   <a href="https://leetcode.com/u/xuanquanchen/" target="_blank"><span op75 i-simple-icons-leetcode /> LeetCode (US)</a>
   <a href="https://huggingface.co/xuanquanchen" target="_blank"><span op75 i-simple-icons-huggingface /> Hugging Face</a>
   <a href="https://www.kaggle.com/yikmingchen" target="_blank"><span op75 i-devicon-kaggle /> Kaggle</a>

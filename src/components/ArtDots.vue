@@ -1,120 +1,96 @@
 <script setup lang="ts">
-import type { Texture } from 'pixi.js'
-import { Application, Graphics, Particle, ParticleContainer } from 'pixi.js'
 import { createNoise3D } from 'simplex-noise'
 
-const el = useTemplateRef('el')
-
-let w = window.innerWidth
-let h = window.innerHeight
-
+// A grid of dots drifting on 3D simplex noise, drawn on a plain 2D canvas.
+// Kept cheap on purpose (see docs/feature-map.md#performance): no WebGL library,
+// 2px squares instead of arcs (half the raster cost, same look at this size),
+// dots batched into a few fill() calls by opacity, 20fps (they drift <0.5px per
+// frame), and a single still frame when the visitor prefers reduced motion.
 const SCALE = 200
 const LENGTH = 5
 const SPACING = 15
+const FPS = 20
+const ALPHA_STEPS = 16
 
+const el = useTemplateRef<HTMLCanvasElement>('el')
+const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
 const noise3d = createNoise3D()
 
-const existingPoints = new Set<string>()
-const points: { x: number, y: number, opacity: number, particle: Particle }[] = []
+let ctx: CanvasRenderingContext2D | undefined
+let width = 0
+let height = 0
+let dots: { x: number, y: number, opacity: number }[] = []
+// Flat [x0, y0, x1, y1, ...] positions per opacity step, reused every frame
+const buckets: number[][] = Array.from({ length: ALPHA_STEPS }, () => [])
 
-function getForceOnPoint(x: number, y: number, z: number) {
-  return (noise3d(x / SCALE, y / SCALE, z) - 0.5) * 2 * Math.PI
-}
+function layout() {
+  const canvas = el.value
+  if (!canvas)
+    return
+  const dpr = Math.min(window.devicePixelRatio || 1, 2)
+  width = window.innerWidth
+  height = window.innerHeight
+  canvas.width = Math.round(width * dpr)
+  canvas.height = Math.round(height * dpr)
+  canvas.style.width = `${width}px`
+  canvas.style.height = `${height}px`
+  ctx = canvas.getContext('2d')!
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+  ctx.fillStyle = '#ccc'
 
-const mountedScope = effectScope()
-
-function createDotTexture(app: Application) {
-  const g = new Graphics().circle(0, 0, 1).fill(0xCCCCCC)
-  return app.renderer.generateTexture(g)
-}
-
-function addPoints({ dotTexture, particleContainer }: { dotTexture: Texture, particleContainer: ParticleContainer }) {
-  for (let x = -SPACING / 2; x < w + SPACING; x += SPACING) {
-    for (let y = -SPACING / 2; y < h + SPACING; y += SPACING) {
-      const id = `${x}-${y}`
-      if (existingPoints.has(id))
-        continue
-      existingPoints.add(id)
-
-      const particle = new Particle(dotTexture)
-      particle.anchorX = 0.5
-      particle.anchorY = 0.5
-      particleContainer.addParticle(particle)
-
-      const opacity = Math.random() * 0.5 + 0.5
-      points.push({ x, y, opacity, particle })
-    }
+  dots = []
+  for (let x = -SPACING / 2; x < width + SPACING; x += SPACING) {
+    for (let y = -SPACING / 2; y < height + SPACING; y += SPACING)
+      dots.push({ x, y, opacity: Math.random() * 0.5 + 0.5 })
   }
 }
 
-async function setup() {
-  if (el.value == null)
+function draw() {
+  if (!ctx)
     return
-  const app = new Application()
-  await app.init({
-    backgroundAlpha: 0,
-    // background: '#ffffff',
-    antialias: true,
-    resolution: window.devicePixelRatio,
-    // resizeTo: el.value,
-    eventMode: 'none',
-    autoDensity: true,
-  })
-  el.value.appendChild(app.canvas)
+  const t = Date.now() / 10000
+  for (const bucket of buckets)
+    bucket.length = 0
 
-  await nextTick()
-  app.renderer.resize(window.innerWidth, window.innerHeight)
+  for (const { x, y, opacity } of dots) {
+    const rad = (noise3d(x / SCALE, y / SCALE, t) - 0.5) * 2 * Math.PI
+    const len = (noise3d(x / SCALE, y / SCALE, t * 2) + 0.5) * LENGTH
+    const alpha = (Math.abs(Math.cos(rad)) * 0.8 + 0.2) * opacity
+    buckets[Math.min(ALPHA_STEPS - 1, Math.floor(alpha * ALPHA_STEPS))]
+      .push(x + Math.cos(rad) * len, y + Math.sin(rad) * len)
+  }
 
-  const particleContainer = new ParticleContainer({ dynamicProperties: { position: true, alpha: true } })
-  app.stage.addChild(particleContainer)
-
-  const dotTexture = createDotTexture(app)
-  addPoints({ dotTexture, particleContainer })
-
-  app.ticker.add(() => {
-    const t = Date.now() / 10000
-
-    for (const p of points) {
-      const { x, y, opacity, particle } = p
-      const rad = getForceOnPoint(x, y, t)
-      const len = (noise3d(x / SCALE, y / SCALE, t * 2) + 0.5) * LENGTH
-      const nx = x + Math.cos(rad) * len
-      const ny = y + Math.sin(rad) * len
-
-      particle.x = nx
-      particle.y = ny
-      particle.alpha = (Math.abs(Math.cos(rad)) * 0.8 + 0.2) * opacity
-    }
-  })
-
-  mountedScope.run(() => {
-    useEventListener('resize', async () => {
-      w = window.innerWidth
-      h = window.innerHeight
-      app.renderer.resize(w, h)
-      addPoints({ dotTexture, particleContainer })
-    })
-    onScopeDispose(() => {
-      // For some reason this throws an error, maybe something wrong with pixi.js
-      try {
-        app?.destroy(true, { children: true, texture: true, textureSource: true })
-      }
-      catch (error) {
-        console.error(error)
-      }
-    })
-  })
+  ctx.clearRect(0, 0, width, height)
+  for (let i = 0; i < ALPHA_STEPS; i++) {
+    const bucket = buckets[i]
+    if (!bucket.length)
+      continue
+    ctx.globalAlpha = (i + 0.5) / ALPHA_STEPS
+    ctx.beginPath()
+    for (let j = 0; j < bucket.length; j += 2)
+      ctx.rect(bucket[j] - 1, bucket[j + 1] - 1, 2, 2)
+    ctx.fill()
+  }
 }
 
-onMounted(async () => {
-  await setup()
-})
+const loop = useRafFn(draw, { fpsLimit: FPS, immediate: false })
 
-onUnmounted(() => {
-  mountedScope.stop()
-})
+function start() {
+  layout()
+  draw()
+  if (reducedMotion.value)
+    loop.pause()
+  else
+    loop.resume()
+}
+
+onMounted(start)
+watch(reducedMotion, start)
+useEventListener('resize', useDebounceFn(start, 200))
 </script>
 
 <template>
-  <div ref="el" z--1 fixed size-screen left-0 right-0 top-0 bottom-0 pointer-events-none dark:invert />
+  <div z--1 fixed inset-0 pointer-events-none dark:invert print:hidden>
+    <canvas ref="el" />
+  </div>
 </template>

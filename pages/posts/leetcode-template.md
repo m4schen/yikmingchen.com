@@ -1,5 +1,5 @@
 ---
-title: "Leetcode Template &amp; Notes"
+title: "Leetcode Template & Notes"
 date: 2026-02-22T00:00:00Z
 type: blog
 art: random

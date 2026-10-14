@@ -1,242 +1,67 @@
-# 📸 Auto-Organize Photos Guide
+# 📸 照片整理指南
 
-自动化照片组织脚本 - 从乱序照片自动生成标准命名和元数据
-
-## 🎯 功能
-
-- ✅ 扫描 `/photos` 目录中**未组织的照片**（JPG/PNG）
-- ✅ 从照片的 **EXIF 元数据**中读取拍摄时间
-- ✅ 自动重命名为标准格式：`p-YYYY-MM-DD-HH-MM-SS-000-N.jpg`
-- ✅ 自动生成对应的 `.json` 元数据文件
-- ✅ 处理**相同时间戳**的多张照片（自动添加序列号）
-- ✅ 保留已组织的照片不动
-
-## 🚀 使用方法
-
-### 方式 1：NPM 命令
+把照片放进 `photos/`，运行一条命令，网站就能直接使用。
 
 ```bash
-npm run organize-photos
+pnpm organize-photos
 ```
 
-### 方式 2：直接运行
+脚本是 `scripts/organize-photos.ts`，可以放心重复运行：已经处理过的照片不会再被改动。
 
-```bash
-node scripts/organize-photos.js
-```
+## 它做了什么
 
-## 📋 文件名格式说明
+对 `photos/` 里的每张 JPG/PNG：
 
-生成的文件 名：`p-                      YYYY-            MM-DD-HH-MM-SS-000-N.jpg`
+1. **重命名**（仅限新照片）：读取 EXIF 拍摄时间（`DateTimeOriginal`，其次 `DateTime`），
+   没有 EXIF 时用文件修改时间，改名为 `p-YYYY-MM-DD-HH-MM-SS-000-N.jpg`。
+   同一秒的多张照片用 `N` 区分（`-1`、`-2`…），不会覆盖已有文件。
+2. **压缩**：长边缩到 1440px，JPEG 质量 80（mozjpeg）。能省 10% 以上才写回，所以重复运行不会反复压缩。
+   同时会**去掉所有元数据（包括 GPS 位置）**，照片方向会先按 EXIF 转正。
+3. **生成说明文件**：创建同名 `.json`，并自动补上 `blurhash`（加载时的模糊占位图）。
 
----
+## 文件名格式
 
-| 部分                | 含 义                      | 示例         |
-| ------------------- | -------------------------- | ------------ |
-| `p-`                | 照片标记前缀               | `p-`         |
-| `YYYY    -   MM-DD` | 拍摄日期                   | `2025-04-04` |
-| `HH    -     MM-SS` | 拍摄时间（24小时制）       | `06-04-06`   |
-| `000`               | 毫秒（预留位置，暂未使用） | `000`        |
+`p-2025-04-04-06-04-06-000-1.jpg`
 
-| `N`
-| 序列号（相同时间多张照片） | `1`, `2`, `3`... |
+| 部分                  | 含义                            |
+| --------------------- | ------------------------------- |
+| `p-`                  | 照片前缀                        |
+| `2025-04-04-06-04-06` | 拍摄时间（本地时间，24 小时制） |
+| `000`                 | 毫秒（预留，暂未使用）          |
+| `1`                   | 序号（同一秒的多张照片）        |
 
-**示例：**
-
-```
-p-2025-04-04-06-04-06-000-1.jpg     ← 第一张
-p-2025-04-04-06-04-06-000-2.jpg     ← 同时刻第二张
-p-2025-04-06-07-38-22-000-1.jpg     ← 不同时刻
-```
-
-## 📝 生成的 JSON 元数据
-
-脚本自动为每张照片生成对应的 `.json` 文件：
+## 说明文件（.json）
 
 ```json
 {
-  "text": "Photo from original_filename",
-  "lang": "en"
-}
-```
-
-**你可以编辑这个文件来添加：**
-
-- `text`: 照片描述/说明文字
-- `lang`: 语言（en, zh, ja 等）
-- `blurhash`: 模糊哈希（用于加载占位符）
-
-### 添加 Blurhash（可选）
-
-模糊哈希让照片加载时显示模糊占位符。可以使用在线工具生成：
-
-1. 访问 https://blurha.sh
-2. 上传照片
-3. 复制哈希值到 JSON：
-
-```json
-{
-  "text": "Beautiful sunset photo",
+  "text": "New York City - China Town, Jan 2025",
   "lang": "en",
-  "blurhash": "UeKUpV4m8^%Meyn$RjWB6tzVIVfQ"
+  "blurhash": "UHF#?%rqIU-p}so#NGr?8_Nd%gaJ9FRkxuxt"
 }
 ```
 
-## 🔍 工作原理
+- `text`：照片说明，会显示在相册和预览里。新照片默认是 `Photo from 原文件名`，记得改。
+- `lang`：说明文字的语言（`en`、`zh`、`ja`…）。
+- `blurhash`：脚本自动生成，不用手动填写。
 
-### 1. EXIF 读取
+## 在网站中使用
 
-脚本从照片的 EXIF 元数据中查找：
-
-- `DateTimeOriginal` - 原始拍摄时间（优先使用）
-- `DateTime` - 备选时间标签
-
-### 2. 时间戳生
-
-成
-
-将 EXIF 时间转换为 `YYYY-MM-DD-HH-MM-SS` 格式
-
-### 3. 重复处理
-
-- 如果多张照片时间戳相同，自动添加序列号
-- 例：`000-1`, `000-2`, `000-3`
-
-### 4. 文件处理
-
-- 重命名照片文
-  件
-- 创建对应的 J
-  SON 元数据文件
-- **已组织的照片不会被修改**
-
-## ⚠️ 注意事项
-
-### 前提条件
-
-- 照片必须包含有效的 EXIF 元数据
-- 如果照片没有 EXIF，脚本会使用文件的**修改时间**作为备选
-
-### 损坏恢复
-
-脚本在重命名前会：
-
-1. 检查新文件名是否已存在
-2. 如果存在则跳过，不覆盖
-3. 你的原始照片不会被删除
-
-### 运行多次安全
-
-- 已组织的照片（匹配 `p-YYYY-MM-DD-*` 格式）会被自动跳过
-- 可以安全地多次运行脚本
-
-## 📊 运行示例
-
-```bash
-$ npm run organize-photos
-
-🔍 Scanning photos directory...
-
-Found 3 unorganized photo(s):
-
-  • IMG_001.jpg
-    └─ Capture time: 4/4/2025, 6:04:06 AM
-    └─ New name: p-2025-04-04-06-04-06-000-1.jpg
-
-  • IMG_002.jpg
-    └─ Capture time: 4/4/2025, 6:04:06 AM
-    └─ New name: p-2025-04-04-06-04-06-000-2.jpg
-
-  • trip_photo.png
-    └─ Capture time: 4/6/2025, 7:38:22 AM
-    └─ New name: p-2025-04-06-07-38-22-000-1.png
-
-🚀 Processing phot
-os...
-
-✅ Renamed: IMG_001.jpg → p-2025-04-04-06-04-06-000-1.jpg
-✅ Created: p-2025-04
--04-06-04-06-000-1.json
-✅ Renamed: IMG_002.jpg → p-2025-04-04-06-04-06-000-2.jpg
-
-✅ Created: p-2025-04-04-06-04-06-000-2.json
-✅ Renamed: trip_photo.png → p-2025-04-06-07-38-22-000-1.png
-✅ Created: p-2025-04-06-07-38-22-000-1.json
-
-✅ Done! Successfully organized 3/3 photos
-```
-
-## 🛠️ 常见问题
-
-### Q: 脚本找不到照片怎么办？
-
-A: 确保照片在 `/photos` 目录中，
-并且是 `.jpg`, `.JPG`, `.png`, 或 `.PNG` 格式
-
-### Q: EXIF 信息丢失怎么办？
-
-A: 脚本会自动使用文件的修改时间作为备选，你也可以：
-
-1. 手动编辑生成的文件名
-2. 使用 EXIF 工具（如 ExifTool）添加时间戳
-
-```bash
-# 使用 ExifTool 添加时间戳（需要先安装）
-exiftool -DateTimeOriginal="2025:04:04 06:04:06" photo.jpg
-```
-
-### Q: 可以自定义文件名格式吗？
-
-A: 当然可以！编辑 `scripts/organize-photos.js` 中的 `dateToTimestamp` 函数
-
-### Q: 如何编辑生成的 JSON 文件？
-
-A: 直接编辑 `/photos/p-YYYY-MM-DD-HH-MM-SS-000-N.json` 文件，可以添加：
-
-```json
-{
-  "text": "Your custom description here",
-  "lang": "zh",
-  "blurhash": "UeKUpV4m8^%Meyn$RjWB"
-}
-```
-
-## 🎨 与网站集成
-
-照片组织完后，可以在博文中使用：
+- `/photos` 页面会自动显示 `photos/` 里的所有照片（`photos/data.ts` 负责读取）。
+- 在文章里展示几张照片：按文件名从 `photos/data.ts` 里挑出来，再交给 `<PhotoSlide>`
+  （照片打包后网址带哈希，所以不能直接写 `/photos/xxx.jpg`）：
 
 ```markdown
----
-title: My Trip to Tokyo
-date: 2025-04-08
----
+<script setup>
+import photos from '../../photos/data'
 
-Here are my photos:
+const trip = photos.filter(p => ['p-2025-01-24-02-23-32-000-1', 'p-2025-01-24-02-24-14-000-1'].includes(p.name))
+</script>
 
-<PhotoSlide :photos="[
-  { url: '/photos/p-2025-04-04-06-04-06-000-1.jpg', text: 'First day' },
-  { url: '/photos/p-2025-04-06-07-38-22-000-1.jpg', text: 'Second day' }
-]" />
+<PhotoSlide :photos="trip" />
 ```
 
-或者创建专用组件 `PhotoMyTrip.vue`：
+## 注意事项
 
-```typescript
-const photos = raw.filter(p =>
-  ['p-2025-04-04-06-04-06-000-1', 'p-2025-04-06-07-38-22-000-1'].some(id =>
-    p.url.includes(id),
-  ),
-)
-```
-
-## ✨ 总结
-
-现在你可以：
-
-1. 🎯 将任意乱序照片放入 `/photos`
-2. 🚀 运行 `npm run organize-photos`
-3. ✅ 自动变成标准格式并生成元数据
-4. 📝 编辑 JSON 添加描述
-5. 🌐 在博文中使用照片
-
-**Happy organizing!** 📸
+- RAW 格式（.ARW/.CR2/.NEF/.DNG）要先导出成 JPG/PNG。
+- 原图不会保留：压缩后的文件直接替换原文件（旧版本仍在 git 历史里）。
+- 运行后用 `pnpm build && pnpm verify` 检查；超过 500 kB 的图片会让检查失败。

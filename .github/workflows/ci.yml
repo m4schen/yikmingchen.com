@@ -1,0 +1,121 @@
+# One pipeline for PRs and main. Every run lints, builds, typechecks, verifies the
+# built site, and smoke-tests it in a browser. On main, the exact dist/ that
+# passed those checks is deployed to GitHub Pages.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Lint, build, typecheck, verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6 # version comes from "packageManager" in package.json
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm lint
+
+      # UnoCSS downloads web fonts from bunny.net when these are missing; caching
+      # them keeps builds off the network unless the font config changes
+      - name: Cache web fonts
+        uses: actions/cache@v6
+        with:
+          path: |
+            public/assets/fonts
+            node_modules/.cache/unocss/fonts
+          key: webfonts-${{ hashFiles('unocss.config.ts') }}
+
+      - run: pnpm build
+
+      # After the build: it generates auto-imports.d.ts / components.d.ts
+      - run: pnpm typecheck
+
+      - run: pnpm verify
+
+      - name: Upload dist for the e2e job
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+      - name: Upload dist for GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  e2e:
+    name: Browser smoke tests
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
+
+      - run: pnpm exec playwright install --with-deps --only-shell chromium
+
+      - run: pnpm test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: [build, e2e]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

@@ -88,7 +88,7 @@ interface User {
 const user: User = {
   id: 1,
   name: 'Yiming Chen',
-  email: 'hi@yikmingchen.com',
+  email: 'you@example.com',
 }
 
 console.log(user.name) // "Yiming Chen"
@@ -141,13 +141,13 @@ npm run deploy
 You can embed any Vue component defined in `src/components/`:
 
 ```vue
-<PhotoInBlogTemplate />
+<PhotoGalleryAll :limit="3" />
 ```
 
 This renders the component directly in your post. Other examples:
 
-- `<PhotoGalleryAll :limit="10" />`
-- `<YouTubeEmbed video-id="..." />`
+- `<PhotoSlide :photos="trip" />` with photos picked from `photos/data.ts` (see ORGANIZE_PHOTOS.md)
+- `<YouTubeEmbed id="..." />`
 - Custom components you create
 
 ---

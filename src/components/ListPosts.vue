@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Post } from '~/types'
-import { useRouter } from 'vue-router/auto'
+import { useRouter } from 'vue-router'
 import { englishOnly, formatDate } from '~/logics'
 
 const props = defineProps<{

@@ -11,6 +11,19 @@ export default antfu(
     },
     pnpm: true,
   },
+  {
+    // Removed for speed (docs/feature-map.md#performance); the message tells an agent why
+    rules: {
+      'no-restricted-imports': ['error', {
+        paths: [
+          { message: 'Removed: it cost ~490 kB and pinned a CPU core. Draw on a 2D canvas like src/components/ArtDots.vue.', name: 'pixi.js' },
+          { message: 'Removed: 47 kB on every page. Use a native title attribute or <details>.', name: 'floating-vue' },
+          { message: 'Removed: no global store is needed. Share state from src/logics/index.ts.', name: 'pinia' },
+          { message: 'Deprecated path. Import from "vue-router".', name: 'vue-router/auto' },
+        ],
+      }],
+    },
+  },
 ).removeRules(
   'no-labels',
   'no-lone-blocks',

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router/auto'
+import { useRoute } from 'vue-router'
 import { englishOnly } from '../logics'
 
 const inactiveStyle = 'opacity-20 hover:opacity-50'
@@ -19,24 +19,6 @@ const route = useRoute()
       <RouterLink to="/posts" class="!border-none" :class="route.path === '/posts' ? activeStyle : inactiveStyle">
         Blog
       </RouterLink>
-      <!-- To enable Talks/Podcasts/Streams:
-           1. Uncomment the RouterLink below
-           2. Create corresponding pages:
-              - pages/talks.md with `<ListPosts type="talks" />`
-              - pages/podcasts.md with `<ListPosts type="podcasts" />`
-              - pages/streams.md with `<ListPosts type="streams" />`
-           3. Add frontmatter to posts with `talks: true`, `podcasts: true`, or `streams: true`
-           4. Ensure ListPosts component supports these types in src/components/ListPosts.vue
-      -->
-      <!-- <RouterLink to="/talks" class="!border-none" :class="route.path === '/talks' ? activeStyle : inactiveStyle">
-        Talks
-      </RouterLink>
-      <RouterLink to="/podcasts" class="!border-none" :class="route.path === '/podcasts' ? activeStyle : inactiveStyle">
-        Podcasts
-      </RouterLink>
-      <RouterLink to="/streams" class="!border-none" :class="route.path === '/streams' ? activeStyle : inactiveStyle">
-        Streams
-      </RouterLink> -->
       <RouterLink to="/notes" class="!border-none" :class="route.path === '/notes' ? activeStyle : inactiveStyle">
         Notes
       </RouterLink>

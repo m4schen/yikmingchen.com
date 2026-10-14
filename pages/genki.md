@@ -29,7 +29,3 @@ tags:
 - 采用 async/await 优化 OCR 的异步队列，在图像处理时避免主线程阻塞，提升体验与稳定性。
 
 - 备注：该项目为私人项目，后续计划商业化发布。
-
----
-
-If you'd like this listed on the public Projects page, I can add a short entry or link to it from the main Projects index.

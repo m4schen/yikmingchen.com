@@ -7,9 +7,9 @@ import matter from 'gray-matter'
 import MarkdownIt from 'markdown-it'
 
 const DOMAIN = 'https://yikmingchen.com'
+// No email: the pages obfuscate it, and feeds are plain text that scrapers harvest
 const AUTHOR = {
   name: 'Mason Chen',
-  email: 'hi@yikmingchen.com',
   link: DOMAIN,
 }
 const markdown = MarkdownIt({
@@ -44,7 +44,8 @@ async function buildBlogRSS() {
           const raw = await fs.readFile(i, 'utf-8')
           const { data, content } = matter(raw)
 
-          if (data.lang !== 'en')
+          // Same rules as ListPosts: skip templates/drafts; untagged posts count as English
+          if (data.draft || String(data.title).includes('[TEMPLATE]') || (data.lang && data.lang !== 'en'))
             return
 
           const html = markdown.render(content)

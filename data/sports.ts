@@ -4,6 +4,7 @@ interface BaseSportEntity {
   name: string
   sport: string
   link?: string
+  note?: string
 }
 
 export interface Athlete extends BaseSportEntity {

@@ -6,6 +6,8 @@ art: random
 duration: 15min
 ---
 
+[[toc]]
+
 ## General Method
 
 **Two Pointers** for problems involving arrays (like nsum), linked lists or string. It can used in many cases like finding circles, finding intersections, deleting nodes count from the end, etc.

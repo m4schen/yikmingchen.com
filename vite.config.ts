@@ -3,6 +3,7 @@ import { basename, dirname, resolve } from 'node:path'
 import MarkdownItShiki from '@shikijs/markdown-it'
 import { transformerNotationDiff, transformerNotationHighlight, transformerNotationWordHighlight } from '@shikijs/transformers'
 import Vue from '@vitejs/plugin-vue'
+import MarkdownItKatex from '@vscode/markdown-it-katex'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import anchor from 'markdown-it-anchor'
@@ -27,6 +28,8 @@ import { slugify } from './scripts/slugify'
 
 const promises: Promise<any>[] = []
 const isProduction = process.env.NODE_ENV === 'production'
+// Markdown pages whose rendered HTML contains math; only they load KaTeX's stylesheet
+const mathPages = new Set<string>()
 
 export default defineConfig({
   resolve: {
@@ -133,6 +136,20 @@ export default defineConfig({
         })
 
         md.use(GitHubAlerts)
+
+        // $inline$ and $$display$$ LaTeX, rendered at build time (no JavaScript on the page).
+        // Bad LaTeX renders as .katex-error, which `pnpm verify` rejects.
+        md.use((MarkdownItKatex as any).default ?? MarkdownItKatex, { throwOnError: false })
+      },
+      transforms: {
+        after(html, id) {
+          if (html.includes('class="katex'))
+            mathPages.add(id)
+          else
+            mathPages.delete(id)
+          return html
+        },
+        extraScripts: (_frontmatter, id) => mathPages.has(id) ? [`import 'katex/dist/katex.min.css'`] : [],
       },
       frontmatterPreprocess(frontmatter, options, id, defaults) {
         (() => {

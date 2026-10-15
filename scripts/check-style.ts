@@ -44,6 +44,9 @@ function markdownSource(text: string) {
     .replace(/^---\n[\s\S]*?\n---\n/, m => '\n'.repeat(m.split('\n').length - 1))
     .replace(/```[\s\S]*?```/g, m => '\n'.repeat(m.split('\n').length - 1))
     .replace(/`[^`\n]*`/g, '')
+    // LaTeX is math, not prose: \text{...}, \color and # in formulas aren't style violations
+    .replace(/\$\$[\s\S]*?\$\$/g, m => '\n'.repeat(m.split('\n').length - 1))
+    .replace(/\$[^$\n]+\$/g, '')
 }
 
 function report(file: string, text: string, index: number, message: string) {

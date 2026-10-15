@@ -6,6 +6,8 @@ art: random
 duration: 22min
 ---
 
+[[toc]]
+
 All algorithms operate on **\[begin, end)**.
 Most are defined in `<algorithm>`,\
 `accumulate` is defined in `<numeric>`.

@@ -15,7 +15,9 @@
 //   - privacy: drafts not deployed; no email addresses, machine paths, source maps or
 //     dot-directories; no identifying image metadata (GPS, camera, author, XMP...)
 //   - style (docs/style-guide.md): only Inter / DM Mono / Roboto Condensed at weights
-//     <= 600 ship, and the TOC sidebar appears only on pages whose source has [[toc]]
+//     <= 600 ship (plus KaTeX's own fonts for math), and the TOC sidebar appears only
+//     on pages whose source has [[toc]]
+//   - math: no KaTeX errors and no unrendered $...\command...$ LaTeX in page text
 import { Buffer } from 'node:buffer'
 import { readFileSync, statSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
@@ -211,6 +213,8 @@ for (const cssFile of await fg('assets/*.css', { cwd: DIST, absolute: true })) {
   for (const [, face] of css.matchAll(/@font-face\{([^}]*)\}/g)) {
     const family = face.match(/font-family:"?([^";]+)/)?.[1]
     const weight = Number(face.match(/font-weight:(\d+)/)?.[1] ?? 400)
+    if (family?.startsWith('KaTeX_'))
+      continue // math fonts: loaded only by pages with math (docs/style-guide.md#math)
     if (family && !FONT_FAMILIES.includes(family))
       error(`${relative(DIST, cssFile)}: ships font "${family}" -- the guide allows ${FONT_FAMILIES.join(', ')}`)
     if (weight > 600)
@@ -224,8 +228,16 @@ const tocSources = new Set(pageFiles.filter(f => /\[\[toc\]\]|<ListProjects/.tes
   .replace(/\/index$/, '') || '/'))
 for (const file of htmlFiles) {
   const path = urlToPath(file)
-  if (readFileSync(file, 'utf-8').includes('class="table-of-contents"') && !tocSources.has(path))
+  const html = readFileSync(file, 'utf-8')
+  if (html.includes('class="table-of-contents"') && !tocSources.has(path))
     error(`${path}: renders a TOC sidebar but its source has no [[toc]]`)
+  if (html.includes('katex-error'))
+    error(`${path}: KaTeX could not render a formula (look for .katex-error); fix the LaTeX`)
+  // Math the parser skipped shows up as raw text such as "$O(n \log n)$"
+  const text = html.replace(/<(pre|code|script|annotation)[\s\S]*?<\/\1>/g, '').replace(/<[^>]+>/g, '')
+  const raw = text.match(/\$[^$\n]{0,80}\\[a-z]+[^$\n]{0,80}\$/i)?.[0]
+  if (raw)
+    error(`${path}: unrendered LaTeX "${raw}" -- math inside raw HTML isn't rendered; move it into plain markdown`)
 }
 
 // 6. Privacy: nothing personal that the author didn't put on a page on purpose

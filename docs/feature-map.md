@@ -46,6 +46,9 @@ Every page is reachable from `/`; `pnpm verify` warns about any page that isn't.
    - Heading anchors (via `scripts/slugify.ts`) and `[[toc]]`.
    - Magic links `{ARCADE Lab}` and `{JHU}`, defined in `linksMap`.
    - GitHub alerts `> [!NOTE]`.
+   - LaTeX math `$...$` / `$$...$$` via KaTeX (`@vscode/markdown-it-katex`), rendered to
+     HTML + MathML at build time. `transforms` in `vite.config.ts` adds
+     `katex.min.css` only to pages whose HTML contains math.
    - `<!-- @layout-full-width -->` removes the prose column.
 3. OG images: `frontmatterPreprocess` renders `public/og/<name>.png` from the title,
    using the card in `scripts/og-template.svg` (your "mc" mark + name). It only does
@@ -89,6 +92,8 @@ guardrails that keep it this way are listed in AGENTS.md.
 - Link to `/genki`, not `/genki/`. GitHub Pages returns 404 for a trailing slash on an
   `.html` page.
 - Frontmatter is plain text. Writing `&amp;` makes it show up literally (`pnpm verify` catches this).
+- Math inside raw HTML blocks isn't rendered and shows as `$...$` text (`pnpm verify`
+  catches this). Broken LaTeX renders as `.katex-error`, which `pnpm verify` also rejects.
 - `typed-router.d.ts` is generated but tracked, so commit it when routes change.
   `components.d.ts` and `auto-imports.d.ts` are generated and gitignored.
 - Images in `public/` are copied as-is and skip the photo pipeline. Run

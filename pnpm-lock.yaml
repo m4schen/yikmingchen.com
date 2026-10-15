@@ -18,9 +18,15 @@ catalogs:
     '@vitejs/plugin-vue':
       specifier: ^6.0.3
       version: 6.0.3
+    '@vscode/markdown-it-katex':
+      specifier: ^1.1.2
+      version: 1.1.2
     gray-matter:
       specifier: ^4.0.3
       version: 4.0.3
+    katex:
+      specifier: ^0.16.47
+      version: 0.16.47
     markdown-it:
       specifier: ^14.1.0
       version: 14.1.0
@@ -270,6 +276,9 @@ importers:
       '@vitejs/plugin-vue':
         specifier: catalog:build
         version: 6.0.3(vite@7.3.0(@types/node@24.19.2)(jiti@2.6.1)(terser@5.31.3)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.43(typescript@5.9.3))
+      '@vscode/markdown-it-katex':
+        specifier: catalog:build
+        version: 1.1.2
       ansis:
         specifier: catalog:dev
         version: 4.2.0
@@ -303,6 +312,9 @@ importers:
       gray-matter:
         specifier: catalog:build
         version: 4.0.3
+      katex:
+        specifier: catalog:build
+        version: 0.16.47
       lint-staged:
         specifier: catalog:dev
         version: 16.2.7
@@ -1363,6 +1375,9 @@ packages:
   '@volar/typescript@2.4.28':
     resolution: {integrity: sha512-Ja6yvWrbis2QtN4ClAKreeUZPVYMARDYZl9LMEv1iQ1QdepB6wn0jTRxA9MftYmYa4DQ4k/DaSZpFPUfxl8giw==}
 
+  '@vscode/markdown-it-katex@1.1.2':
+    resolution: {integrity: sha512-+4IIv5PgrmhKvW/3LpkpkGg257OViEhXkOOgCyj5KMsjsOfnRXkni8XAuuF9Ui5p3B8WnUovlDXAQNb8RJ/RaQ==}
+
   '@vue-macros/common@3.1.1':
     resolution: {integrity: sha512-afW2DMjgCBVs33mWRlz7YsGHzoEEupnl0DK5ZTKsgziAlLh5syc5m+GM7eqeYrgiQpwMaVxa1fk73caCvPxyAw==}
     engines: {node: '>=20.19.0'}
@@ -1654,6 +1669,10 @@ packages:
 
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
+
+  commander@8.3.0:
+    resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
+    engines: {node: '>= 12'}
 
   comment-parser@1.4.1:
     resolution: {integrity: sha512-buhp5kePrmda3vhc5B9t7pUQXAb2Tnd0qgpkIhPhkHXxJpiPJ11H0ZEU0oBpJ2QztSbzG/ZxMj/CHsYJqRHmyg==}
@@ -2401,6 +2420,10 @@ packages:
 
   jsonfile@6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}
+
+  katex@0.16.47:
+    resolution: {integrity: sha512-Eeo8Ys1doU1z+x8AZsPpQu+p/QcZBI5PeOo7QGQdy2x2m0MU/hYagBbGOmXwr5KVbEfVuWv9LpnQWeehogurjg==}
+    hasBin: true
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -4657,6 +4680,10 @@ snapshots:
       path-browserify: 1.0.1
       vscode-uri: 3.2.0
 
+  '@vscode/markdown-it-katex@1.1.2':
+    dependencies:
+      katex: 0.16.47
+
   '@vue-macros/common@3.1.1(vue@3.5.43(typescript@5.9.3))':
     dependencies:
       '@vue/compiler-sfc': 3.5.43
@@ -4973,6 +5000,8 @@ snapshots:
   commander@14.0.2: {}
 
   commander@2.20.3: {}
+
+  commander@8.3.0: {}
 
   comment-parser@1.4.1: {}
 
@@ -5772,6 +5801,10 @@ snapshots:
       universalify: 2.0.0
     optionalDependencies:
       graceful-fs: 4.2.6
+
+  katex@0.16.47:
+    dependencies:
+      commander: 8.3.0
 
   keyv@4.5.4:
     dependencies:

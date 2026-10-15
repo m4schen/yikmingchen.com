@@ -69,8 +69,10 @@ draft: true # optional: dev-only, never deployed (but still public on GitHub)
 ---
 ```
 
-Copy markdown features from `pages/posts/[TEMPLATE]-blog-example.md`. The first build
-generates `public/og/<slug>.png`; commit it.
+Copy markdown features from `pages/posts/[TEMPLATE]-blog-example.md`. For a long post,
+put `[[toc]]` on its own line after the frontmatter to get the margin TOC. Math is
+LaTeX: `$x^2$` inline, `$$` on its own lines for display. The first build generates
+`public/og/<slug>.png`; commit it.
 
 **New page.** Add `pages/<name>.md` with `title` (plus optional `display`, `subtitle`,
 `description`, `art`). Link it from somewhere; `pnpm verify` warns about orphans. Add

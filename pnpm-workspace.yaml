@@ -12,7 +12,9 @@ catalogs:
     '@shikijs/transformers': ^3.20.0
     '@unocss/preset-web-fonts': ^66.5.10
     '@vitejs/plugin-vue': ^6.0.3
+    '@vscode/markdown-it-katex': ^1.1.2
     gray-matter: ^4.0.3
+    katex: ^0.16.47
     markdown-it: ^14.1.0
     markdown-it-anchor: ^9.2.0
     markdown-it-github-alerts: ^1.0.0

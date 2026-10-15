@@ -263,3 +263,16 @@ h6:focus .header-anchor {
   margin: -1px -3px;
   border-radius: 4px;
 }
+
+/* Math (KaTeX, rendered at build time). Its stylesheet loads only on pages with math. */
+.prose .katex {
+  /* KaTeX defaults to 1.21em, which reads large next to Inter */
+  font-size: 1.1em;
+}
+
+.prose .katex-display {
+  /* Long display equations scroll inside the column on phones */
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25em 0;
+}

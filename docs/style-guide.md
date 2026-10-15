@@ -44,6 +44,8 @@ Three families, each with one job:
 - **Roboto Condensed** only for special compact elements, today the magic-link
   chips (`{ARCADE Lab}`, `{JHU}`). Don't use it anywhere else.
 
+Math is the one exception: formulas use KaTeX's own fonts (see Math).
+
 Weights: **400, 500 and 600 only**, plus italic 400 and 500. Nothing ships
 heavier, so nothing may ask for more. `<strong>`, `**bold**` and table headers are 600.
 
@@ -122,6 +124,20 @@ heavier, so nothing may ask for more. `<strong>`, `**bold**` and table headers a
 - **Dates and reading time:** "Mar 15, 2026" (`formatDate`) and "5min".
 - **Frontmatter is plain text:** write `&`, never `&amp;`.
 
+## Math
+
+- Write LaTeX in markdown: `$O(n \log n)$` inline, and `$$` on its own line above
+  and below a display formula.
+- KaTeX renders it at build time, so pages ship no math JavaScript. Its stylesheet
+  and fonts load only on pages that contain math.
+- Inline math is 1.1em so it sits evenly with Inter. Long display formulas scroll
+  sideways inside the column on phones.
+- Use `\text{...}` for words inside a formula, and keep plain prose out of math.
+- Math inside raw HTML (`<div>...</div>`) is not rendered. Keep formulas in plain
+  markdown.
+- A price like `$5 and $10` stays text. In a line that also has math, write `\$` for a
+  literal dollar sign.
+
 ## Code
 
 - Fenced blocks always name their language. Highlighting uses Shiki's vitesse
@@ -138,9 +154,12 @@ The mechanical rules are checked; `pnpm check` and CI fail when one breaks.
   Chinese punctuation and spacing rules. Its exceptions are listed at the top of the
   script, each with a reason.
 - `pnpm verify` reads the built site: only Inter, DM Mono and Roboto Condensed at
-  weights up to 600 ship, and a TOC sidebar appears only on pages that ask for one.
-- `pnpm test:e2e` checks the margin TOC, scrolling tables on phones, and the
-  reduced-motion still frame of the dots background.
+  weights up to 600 ship (KaTeX's fonts excepted), a TOC sidebar appears only on
+  pages that ask for one, KaTeX rendered every formula, and no raw `$...$` LaTeX is
+  left in page text.
+- `pnpm test:e2e` checks the margin TOC, scrolling tables on phones, math rendering
+  (and no KaTeX stylesheet on pages without math), and the reduced-motion still
+  frame of the dots background.
 
 ## Reference
 

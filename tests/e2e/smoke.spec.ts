@@ -68,7 +68,7 @@ test('the margin TOC shows only where the page has [[toc]], on wide screens', as
   await expect(page.locator('.table-of-contents')).toBeHidden()
 
   await page.setViewportSize({ width: 1440, height: 900 })
-  await visit(page, '/posts/cpp-acm-mod') // no [[toc]]
+  await visit(page, '/posts/note-preference-on-rental') // no [[toc]]
   await expect(page.locator('.table-of-contents')).toHaveCount(0)
 })
 
@@ -82,6 +82,18 @@ test('wide tables scroll instead of being cut off on a phone', async ({ page }) 
   }))
   expect(fits).toBe(true)
   expect(scrollable).toBe(true)
+})
+
+test('LaTeX renders with KaTeX, and only math pages load its stylesheet', async ({ page }) => {
+  await visit(page, '/posts/cpp-stl-notes') // uses $O(n \log n)$
+  const math = page.locator('.katex').first()
+  await expect(math).toBeVisible()
+  await expect(page.getByText(/\$O\(/)).toHaveCount(0) // no raw, unrendered LaTeX
+  await expect.poll(() => math.locator('.mord').first().evaluate(el => getComputedStyle(el).fontFamily)).toContain('KaTeX')
+
+  await visit(page, '/posts/cpp-acm-mod') // no math
+  const katexCss = await page.evaluate(() => Array.from(document.styleSheets).some(s => Array.from(s.cssRules).some(r => r.cssText.includes('KaTeX_Main'))))
+  expect(katexCss).toBe(false)
 })
 
 test('[TEMPLATE] posts are not deployed', async ({ page }) => {

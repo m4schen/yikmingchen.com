@@ -6,6 +6,8 @@ duration: 5min
 description: "Short guide to the differences between ACM mode and regular LeetCode-style."
 ---
 
+[[toc]]
+
 ## The Core Difference
 
 - ACM mode need us manually handle input and output, while LeetCode-style provides a function signature and handles I/O for us. Using `while (cin >> ...)` or `for (int t = 0; t < T; t++)` or `while(a--)` is common in ACM mode to read multiple test cases.

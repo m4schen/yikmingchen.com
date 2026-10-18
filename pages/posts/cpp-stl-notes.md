@@ -1,7 +1,7 @@
 ---
 title: "C++ STL Core Algorithms / Container "
 date: 2026-02-25T00:00:00Z
-type: blog
+type: note
 art: random
 duration: 22min
 ---

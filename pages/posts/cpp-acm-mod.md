@@ -2,6 +2,8 @@
 title: "ACM Mode C++ Guide"
 date: '2026-03-15T00:00:00Z'
 lang: en
+type: note
+art: random
 duration: 5min
 description: "Short guide to the differences between ACM mode and regular LeetCode-style."
 ---

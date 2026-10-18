@@ -93,6 +93,13 @@ declare module 'vue-router/auto-routes' {
       { TEMPLATE: ParamValue<false> },
       | never
     >,
+    '/posts/before-i-had-time-to-miss-writing-code-zh': RouteRecordInfo<
+      '/posts/before-i-had-time-to-miss-writing-code-zh',
+      '/posts/before-i-had-time-to-miss-writing-code-zh',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/posts/cpp-acm-mod': RouteRecordInfo<
       '/posts/cpp-acm-mod',
       '/posts/cpp-acm-mod',
@@ -212,6 +219,12 @@ declare module 'vue-router/auto-routes' {
     'pages/posts/[TEMPLATE]-note-example.md': {
       routes:
         | '/posts/[TEMPLATE]-note-example'
+      views:
+        | never
+    }
+    'pages/posts/before-i-had-time-to-miss-writing-code-zh.md': {
+      routes:
+        | '/posts/before-i-had-time-to-miss-writing-code-zh'
       views:
         | never
     }

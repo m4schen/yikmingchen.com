@@ -2,6 +2,7 @@
 title: "家具和住房的一些个人偏好"
 date: 2026-03-22T00:00:00Z
 type: note
+lang: zh
 art: random
 duration: 3min
 ---

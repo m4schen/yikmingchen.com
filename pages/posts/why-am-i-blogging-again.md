@@ -20,7 +20,7 @@ I did, but I see those things differently. With those tools, I was still writing
 
 The generated text was often good, many even better than what I could have written. But something that felt like mine was slowly being ground away. I was losing not just my own words, but also the practice of finding them.
 
-AI makes writing more important, yet it also makes it easier for me to stop writing.
+**AI makes writing more important, yet it also makes it easier for me to stop writing.**
 
 There's an irony here. As a software engineer, I use LLMs almost every day. Though we don't need to put as much effort into prompting the model as we did two years ago, the ability to clearly articulate what we want still matters. In software development, clearly defining a feature, its boundaries, and its requirements can save us a lot of time revising an agent's output. That's also why I find plugins like "grill-me" interesting: they push us to clarify what we actually want before jumping into implementation.
 
@@ -28,7 +28,7 @@ Writing is also a way of thinking. Sometimes an idea seems clear in my head, but
 
 So here I am, blogging again. I don't expect every post to be perfect, but I want to regain my ability to write on my own. I hope something I write will be useful to someone, someday.
 
-And I want the words to be mine.
+**And I want the words to be mine.**
 
 ## Further reading
 

@@ -68,7 +68,7 @@ test('the margin TOC shows only where the page has [[toc]], on wide screens', as
   await expect(page.locator('.table-of-contents')).toBeHidden()
 
   await page.setViewportSize({ width: 1440, height: 900 })
-  await visit(page, '/posts/note-preference-on-rental') // no [[toc]]
+  await visit(page, '/posts/jia-ju-he-zhu-fang-de-ge-ren-pian-hao-zh') // no [[toc]]
   await expect(page.locator('.table-of-contents')).toHaveCount(0)
 })
 
@@ -115,6 +115,20 @@ test('nav bar reaches the blog and a post', async ({ page }) => {
   await expect(page).toHaveURL(href!)
   await expect(page.locator('article')).not.toBeEmpty()
   expect(errors).toEqual([])
+})
+
+test('technical only filter hides non-technical posts and persists', async ({ page }) => {
+  await visit(page, '/posts')
+  const items = page.locator('a.item')
+  const all = await items.count()
+  const toggle = page.getByRole('button', { name: 'Technical Only' })
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+  await expect(items).not.toHaveCount(all)
+  await expect(page.locator('a.item[href="/posts/before-i-had-time-to-miss-writing-code-zh"]')).toBeVisible()
+  await expect(page.locator('a.item[href="/posts/ming-tian-jian-jia-ran-xiao-jie-zh"]')).toHaveCount(0)
+  await page.reload()
+  await expect(page.getByRole('button', { name: 'Technical Only' })).toHaveAttribute('aria-pressed', 'true')
 })
 
 test('theme toggle switches dark mode and persists', async ({ page }) => {

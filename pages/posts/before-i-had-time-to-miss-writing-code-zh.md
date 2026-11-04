@@ -1,6 +1,7 @@
 ---
 title: "我还没来得及怀念手写代码"
 date: 2026-10-17T00:00:00Z
+tech: true
 lang: zh
 art: random
 duration: 5min

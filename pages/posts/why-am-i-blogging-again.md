@@ -1,6 +1,7 @@
 ---
 title: Why Am I Blogging Again?
 date: 2026-11-03T00:00:00Z
+tech: true
 type: blog
 lang: en
 duration: 3min
@@ -24,7 +25,7 @@ The generated text was often good, many even better than what I could have writt
 
 There's an irony here. As a software engineer, I use LLMs almost every day. Though we don't need to put as much effort into prompting the model as we did two years ago, the ability to clearly articulate what we want still matters. In software development, clearly defining a feature, its boundaries, and its requirements can save us a lot of time revising an agent's output. That's also why I find plugins like "grill-me" interesting: they push us to clarify what we actually want before jumping into implementation.
 
-Writing is also a way of thinking. Sometimes an idea seems clear in my head, but when I try to put it into words, I realize that I don't fully understand it. Writing forces me to identify the gaps in my thinking and find the right words to express my ideas. Writing things out also helps me learn. I take in a lot of ideas through reading, watching videos, and other sources, but they often feel like scattered dots on a piece of paper. Writing is how I connect those dots and make sense of them.
+Writing has other benefits too. For one, it’s a way of thinking. Others have explained this better than I can, so I’ll leave it to the essays below.
 
 So here I am, blogging again. I don't expect every post to be perfect, but I want to regain my ability to write on my own. I hope something I write will be useful to someone, someday.
 

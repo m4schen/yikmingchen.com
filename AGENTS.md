@@ -55,7 +55,9 @@ commit.
 
 ## Paved roads
 
-**New post or note.** Add `pages/posts/<kebab-slug>.md`. No brackets in the filename.
+**New post or note.** Add `pages/posts/<kebab-slug>.md`. No brackets in the filename. Chinese posts
+(`lang: zh`) are named in pinyin ending in `-zh`: `ming-tian-jian-jia-ran-xiao-jie-zh.md`.
+Dates are zero-padded (`2024-06-27`). `pnpm lint:style` checks both.
 
 ```yaml
 ---
@@ -63,6 +65,7 @@ title: My Post # plain text: write "&", never "&amp;"
 date: 2026-10-14T00:00:00Z
 type: blog # blog -> /posts, note -> /notes
 lang: en # zh for Chinese posts, so the "English only" filter and RSS treat them right
+tech: true # optional: technical post or technical thoughts, for the "Technical only" filter
 duration: 5min
 art: random # optional background: plum | dots | random
 draft: true # optional: dev-only, never deployed (but still public on GitHub)

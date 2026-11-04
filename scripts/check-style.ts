@@ -78,6 +78,17 @@ for (const file of files) {
   if (/font-condensed/.test(text) && !CONDENSED_ALLOWED.includes(file))
     report(file, text, text.indexOf('font-condensed'), '"font-condensed" is only for magic-link chips (src/styles/markdown.css)')
 
+  // Post frontmatter: zero-padded ISO dates (2024-6-27 sorts and parses wrong),
+  // and Chinese posts named in pinyin ending in -zh (pages/posts/ming-tian-jian-zh.md)
+  if (file.startsWith('pages/posts/') && !file.includes('[TEMPLATE]')) {
+    const fm = raw.match(/^---\n([\s\S]*?)\n---\n/)?.[1] ?? ''
+    const date = fm.match(/^date:\s*['"]?([^'"\n]*)/m)?.[1]
+    if (date && !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(date))
+      report(file, raw, raw.indexOf('date:'), `date "${date}" -- write it zero-padded, like 2024-06-27T00:00:00Z`)
+    if (/^lang:\s*zh\s*$/m.test(fm) && !file.endsWith('-zh.md'))
+      report(file, raw, raw.indexOf('lang:'), 'Chinese post -- name the file in pinyin ending in -zh, like ming-tian-jian-zh.md')
+  }
+
   if (file.endsWith('.md')) {
     // Chinese typography, on prose only: drop tags, ruby parentheses, links' URLs
     const prose = text

@@ -19,7 +19,7 @@ const noArt = args.includes('--no-art')
 const routes = args.filter(a => !a.startsWith('--'))
 const targets = routes.length
   ? routes
-  : ['/', '/index-zh', '/posts', '/posts/cpp-stl-notes', '/posts/note-preference-on-rental', '/projects', '/photos']
+  : ['/', '/index-zh', '/posts', '/posts/cpp-stl-notes', '/posts/jia-ju-he-zhu-fang-de-ge-ren-pian-hao-zh', '/projects', '/photos']
 
 const VARIANTS = [
   { name: 'light', colorScheme: 'light', viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 },

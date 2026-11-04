@@ -100,6 +100,20 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/posts/bu-zhi-shi-deng-che-de-ren-hui-mi-mang-zh': RouteRecordInfo<
+      '/posts/bu-zhi-shi-deng-che-de-ren-hui-mi-mang-zh',
+      '/posts/bu-zhi-shi-deng-che-de-ren-hui-mi-mang-zh',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/posts/cong-asoul-kan-qu-zhong-xing-hua-de-tao-lun-fen-wei-zh': RouteRecordInfo<
+      '/posts/cong-asoul-kan-qu-zhong-xing-hua-de-tao-lun-fen-wei-zh',
+      '/posts/cong-asoul-kan-qu-zhong-xing-hua-de-tao-lun-fen-wei-zh',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/posts/cpp-acm-mod': RouteRecordInfo<
       '/posts/cpp-acm-mod',
       '/posts/cpp-acm-mod',
@@ -114,6 +128,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/posts/jia-ju-he-zhu-fang-de-ge-ren-pian-hao-zh': RouteRecordInfo<
+      '/posts/jia-ju-he-zhu-fang-de-ge-ren-pian-hao-zh',
+      '/posts/jia-ju-he-zhu-fang-de-ge-ren-pian-hao-zh',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/posts/leetcode-template': RouteRecordInfo<
       '/posts/leetcode-template',
       '/posts/leetcode-template',
@@ -121,9 +142,23 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/posts/note-preference-on-rental': RouteRecordInfo<
-      '/posts/note-preference-on-rental',
-      '/posts/note-preference-on-rental',
+    '/posts/ming-tian-jian-jia-ran-xiao-jie-zh': RouteRecordInfo<
+      '/posts/ming-tian-jian-jia-ran-xiao-jie-zh',
+      '/posts/ming-tian-jian-jia-ran-xiao-jie-zh',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/posts/why-am-i-blogging-again': RouteRecordInfo<
+      '/posts/why-am-i-blogging-again',
+      '/posts/why-am-i-blogging-again',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/posts/xi-xing-man-ji-yi-zh': RouteRecordInfo<
+      '/posts/xi-xing-man-ji-yi-zh',
+      '/posts/xi-xing-man-ji-yi-zh',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -228,6 +263,18 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'pages/posts/bu-zhi-shi-deng-che-de-ren-hui-mi-mang-zh.md': {
+      routes:
+        | '/posts/bu-zhi-shi-deng-che-de-ren-hui-mi-mang-zh'
+      views:
+        | never
+    }
+    'pages/posts/cong-asoul-kan-qu-zhong-xing-hua-de-tao-lun-fen-wei-zh.md': {
+      routes:
+        | '/posts/cong-asoul-kan-qu-zhong-xing-hua-de-tao-lun-fen-wei-zh'
+      views:
+        | never
+    }
     'pages/posts/cpp-acm-mod.md': {
       routes:
         | '/posts/cpp-acm-mod'
@@ -240,15 +287,33 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'pages/posts/jia-ju-he-zhu-fang-de-ge-ren-pian-hao-zh.md': {
+      routes:
+        | '/posts/jia-ju-he-zhu-fang-de-ge-ren-pian-hao-zh'
+      views:
+        | never
+    }
     'pages/posts/leetcode-template.md': {
       routes:
         | '/posts/leetcode-template'
       views:
         | never
     }
-    'pages/posts/note-preference-on-rental.md': {
+    'pages/posts/ming-tian-jian-jia-ran-xiao-jie-zh.md': {
       routes:
-        | '/posts/note-preference-on-rental'
+        | '/posts/ming-tian-jian-jia-ran-xiao-jie-zh'
+      views:
+        | never
+    }
+    'pages/posts/why-am-i-blogging-again.md': {
+      routes:
+        | '/posts/why-am-i-blogging-again'
+      views:
+        | never
+    }
+    'pages/posts/xi-xing-man-ji-yi-zh.md': {
+      routes:
+        | '/posts/xi-xing-man-ji-yi-zh'
       views:
         | never
     }

@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 
 export const isDark = useDark()
 export const englishOnly = useLocalStorage('yikmingchen-english-only', false)
+export const technicalOnly = useLocalStorage('yikmingchen-technical-only', false)
 export const galleryView = useLocalStorage<'cover' | 'contain'>('yikmingchen-gallery-view', 'cover')
 
 /**

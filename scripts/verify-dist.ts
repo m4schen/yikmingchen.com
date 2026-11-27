@@ -5,8 +5,10 @@
 //
 // Checks:
 //   - every static page in pages/ was rendered, plus 404.html, CNAME, feed.xml
+//   - feed.xml carries every post that is not a draft or a template
 //   - internal links/assets resolve under GitHub Pages rules (see serve-dist.ts)
 //   - pages reachable from / have no broken links (unreachable pages only warn)
+//   - no placeholder links (href="#" or javascript:) that silently do nothing
 //   - every page has a <title> and its og:image exists
 //   - no unresolved Vue components (`<ListPosts>` leaking into HTML)
 //   - no [TEMPLATE] posts leaking into rendered pages
@@ -97,6 +99,26 @@ for (const file of pageFiles) {
   }
 }
 
+// 2b. The feed carries every post. Same rules as scripts/rss.ts: drafts and
+// templates are out, nothing else.
+let feedXml = ''
+try {
+  feedXml = readFileSync(join(DIST, 'feed.xml'), 'utf-8')
+}
+catch {}
+if (feedXml) {
+  for (const file of await fg('pages/posts/*.md')) {
+    if (file.includes('index'))
+      continue
+    const { data } = matter(readFileSync(file, 'utf-8'))
+    if (data.draft || String(data.title).includes('[TEMPLATE]'))
+      continue
+    const url = `${DOMAIN}${file.replace(/^pages/, '').replace(/\.md$/, '')}`
+    if (!feedXml.includes(`<link>${url}</link>`))
+      error(`${file} is missing from dist/feed.xml`)
+  }
+}
+
 // 3. Per-page checks + link graph
 const htmlFiles = await fg('**/*.html', { cwd: DIST, absolute: true, ignore: ['admin/**'] })
 const pages = new Map<string, { anchors: string[], resources: string[] }>()
@@ -131,6 +153,12 @@ for (const file of htmlFiles) {
   // Frontmatter is plain text; `&amp;` in a title shows up literally on the page
   if (/<title>[^<]*&amp;(?:amp|lt|gt|quot|#\d+);/.test(html))
     error(`${path}: double-escaped HTML entity -- write "&" not "&amp;" in frontmatter`)
+
+  // A link with href="#" or javascript: looks live and does nothing on click
+  for (const href of anchors) {
+    if (href === '#' || href.startsWith('javascript:'))
+      error(`${path}: placeholder link href="${href}" -- point it at a real URL or drop the element`)
+  }
 
   if (html.length > BUDGET.html)
     error(`${path}: HTML is ${kb(html.length)} (budget ${kb(BUDGET.html)})`)

@@ -85,8 +85,8 @@ heavier, so nothing may ask for more. `<strong>`, `**bold**` and table headers a
 - **People and organizations** use magic links (`{Name}`), defined in
   `vite.config.ts`.
 - **Nav bar:** words for site sections (Blog, Projects). Icons only for the photos
-  section, external profiles (GitHub) and utilities (theme toggle). At most about 6
-  items, no dropdowns.
+  section, external profiles (GitHub), the feed (RSS) and utilities (theme toggle).
+  At most about 6 items, no dropdowns.
 
 ## Images and figures
 

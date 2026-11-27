@@ -13,9 +13,9 @@ const route = useRoute()
 const content = ref<HTMLDivElement>()
 
 const _base = 'https://yikmingchen.com'
-const tweetUrl = computed(() => '#') // TODO: Add your Twitter share URL
-const elkUrl = computed(() => '#') // TODO: Add your Bluesky/Fediverse share URL
-const blueskyUrl = computed(() => '#') // TODO: Add your Bluesky share URL
+const shareText = computed(() => `Reading ${_base}${route.path}\n\nI think...`)
+const blueskyUrl = computed(() => `https://bsky.app/intent/compose?text=${encodeURIComponent(shareText.value)}`)
+const tweetUrl = computed(() => `https://x.com/intent/post?text=${encodeURIComponent(shareText.value)}`)
 
 onMounted(() => {
   const navigate = () => {
@@ -140,10 +140,8 @@ const ArtComponent = computed(() => {
   <div v-if="route.path !== '/'" class="prose m-auto mt-8 mb-8 slide-enter animate-delay-500 print:hidden">
     <template v-if="frontmatter.duration">
       <span font-mono op50>> </span>
-      <span op50>comment on </span>
+      <span op50>share on </span>
       <a :href="blueskyUrl" target="_blank" op50>bluesky</a>
-      <span op25> / </span>
-      <a :href="elkUrl" target="_blank" op50>mastodon</a>
       <span op25> / </span>
       <a :href="tweetUrl" target="_blank" op50>twitter</a>
     </template>

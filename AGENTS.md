@@ -64,7 +64,7 @@ Dates are zero-padded (`2024-06-27`). `pnpm lint:style` checks both.
 title: My Post # plain text: write "&", never "&amp;"
 date: 2026-10-14T00:00:00Z
 type: blog # blog -> /posts, note -> /notes
-lang: en # zh for Chinese posts, so the "English only" filter and RSS treat them right
+lang: en # zh for Chinese posts: drives the "English only" filter and <article lang>; the feed takes every language
 tech: true # optional: technical post or technical thoughts, for the "Technical only" filter
 duration: 5min
 art: random # optional background: plum | dots | random

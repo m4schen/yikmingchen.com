@@ -12,7 +12,7 @@ Check any page against the real artifact: `pnpm build && pnpm serve:dist`, then 
 - `/`: `pages/index.md`. Reached from logo in NavBar. Bio + links. `/index-zh` (`pages/index-zh.md`) is the Chinese copy; keep both in sync by hand.
 - `/posts`: `pages/posts/index.md`. Reached from NavBar "Blog". `<SubNav>` + `<ListPosts type="blog">`.
 - `/notes`: `pages/notes.md`. Reached from SubNav "Notes". `<ListPosts type="note">`.
-- `/posts/<slug>`: `pages/posts/<slug>.md`. Reached from `/posts`, `/notes`. Wrapped by `WrapperPost.vue` (title, date, duration, art, `cd ..`).
+- `/posts/<slug>`: `pages/posts/<slug>.md`. Reached from `/posts`, `/notes`. Wrapped by `WrapperPost.vue` (title, date, duration, art, share links, `cd ..`).
 - `/projects`: `pages/projects.md`. Reached from NavBar "Projects". Data is the `projects:` frontmatter map (category -> `{ name, link, excerpt, icon }`), rendered by `ListProjects.vue`. `icon` is an UnoCSS icon class such as `i-ph-heartbeat`.
 - `/genki`: `pages/genki.md`. Reached from `/projects`. Project detail page.
 - `/photos`: `pages/photos.md`. Reached from NavBar camera icon. `PhotoGalleryAll` -> `PhotoGrid`, data from `photos/data.ts`.
@@ -34,6 +34,7 @@ Every page is reachable from `/`; `pnpm verify` warns about any page that isn't.
 - **Margin TOC** (`.table-of-contents` in `src/styles/markdown.css`): rendered by `[[toc]]` in markdown (and by `ListProjects.vue` with 2+ categories). Visible at 1280px+, hidden below; pages without one have no sidebar. e2e: "margin TOC".
 - **Image preview** (`src/App.vue`): Clicking any `<img>` inside `.prose` or `.photos` opens it full-screen; arrow keys move through `data-photo-index`, Esc closes. Add class `no-preview` to opt out. e2e: "photos open in a preview".
 - **Footer** (`Footer.vue`): Licence line. Hidden by frontmatter `class: no-copyright`.
+- **Post share links** (`WrapperPost.vue`): footer of every post that has `duration`. "share on bluesky / twitter" opens that network's compose intent pre-filled with the post URL (`https://bsky.app/intent/compose`, `https://x.com/intent/post`). No third-party script.
 - **Page transitions** (`.slide-enter*` in `src/styles/main.css`): Staggered fade-in. Disabled under `prefers-reduced-motion`.
 - **Progress bar** (`nprogress` in `src/main.ts`): Shown on route change.
 
@@ -102,3 +103,5 @@ guardrails that keep it this way are listed in AGENTS.md.
 - `/feed.xml` only exists in `dist/`, so `pnpm dev` answers it with the SPA fallback:
   the home page as `text/html`, still with status 200. Check the feed on
   `pnpm serve:dist`.
+- Share links are built from `_base = https://yikmingchen.com`, so they point at
+  production even from the dev server or a local preview.

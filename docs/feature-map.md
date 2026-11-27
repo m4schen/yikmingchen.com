@@ -20,15 +20,15 @@ Check any page against the real artifact: `pnpm build && pnpm serve:dist`, then 
 - `/sports`: `data/sports.ts` via `SportsConsumption.vue`. Reached from `/`. Tabs are `?type=athlete|team|coach`.
 - `/use`: `pages/use.md`. Reached from `/`, `/photos`. `[[toc]]` renders the floating table of contents.
 - unknown URL: `pages/[...404].md`. Pre-rendered to `dist/404.html`; GitHub Pages serves it with status 404.
-- `/feed.xml` `/feed.atom` `/feed.json`: `scripts/rss.ts` (runs in `pnpm build`). Reached from `<link rel="alternate">` in `index.html`. Posts in `pages/posts/`, minus drafts, templates and `lang` other than `en`. No author email.
+- `/feed.xml` `/feed.atom` `/feed.json`: `scripts/rss.ts` (runs in `pnpm build`). Reached from the nav bar RSS icon and `<link rel="alternate">` in `index.html`. Posts in `pages/posts/`, minus drafts and templates; every language is included. No author email.
 
 Every page is reachable from `/`; `pnpm verify` warns about any page that isn't.
 
 ## Site-wide behavior
 
-- **Nav bar** (`src/components/NavBar.vue`): Logo, Blog, Projects, Photos, GitHub, theme toggle. Scroll-to-top button appears after 300px.
+- **Nav bar** (`src/components/NavBar.vue`): Logo, Blog, Projects, Photos, GitHub, RSS, theme toggle. Scroll-to-top button appears after 300px.
 - **Dark mode** (`ToggleTheme.vue` -> `toggleDark()` in `src/logics/index.ts`): View Transition circle reveal. Stored in localStorage `vueuse-color-scheme`. The inline script in `index.html` applies it before first paint. e2e: "theme toggle".
-- **"English only"** (`SubNav.vue`, `englishOnly` in `src/logics/index.ts`): localStorage `yikmingchen-english-only`. Hides posts whose `lang` isn't `en`; untagged posts count as English.
+- **"English only"** (`SubNav.vue`, `englishOnly` in `src/logics/index.ts`): localStorage `yikmingchen-english-only`. Hides posts whose `lang` isn't `en`; untagged posts count as English. The feed is not affected: `/feed.xml` always carries every language.
 - **"Technical only"** (`SubNav.vue`, `technicalOnly` in `src/logics/index.ts`): localStorage `yikmingchen-technical-only`. Shows only posts with frontmatter `tech: true` (technical notes and technical thoughts). Combines with "English only". e2e: "technical only filter".
 - **Background art** (frontmatter `art:` -> `WrapperPost.vue`): `plum` -> `ArtPlum.vue` (2D canvas, stops once grown). `dots` -> `ArtDots.vue` (2D canvas, 20 fps; one still frame under reduced motion). `random` picks one per visit. See "Performance" below. e2e: "dots background".
 - **Margin TOC** (`.table-of-contents` in `src/styles/markdown.css`): rendered by `[[toc]]` in markdown (and by `ListProjects.vue` with 2+ categories). Visible at 1280px+, hidden below; pages without one have no sidebar. e2e: "margin TOC".
@@ -99,3 +99,6 @@ guardrails that keep it this way are listed in AGENTS.md.
   `components.d.ts` and `auto-imports.d.ts` are generated and gitignored.
 - Images in `public/` are copied as-is and skip the photo pipeline. Run
   `pnpm compress` on them (it works on staged files), or `pnpm verify` fails at 500 kB.
+- `/feed.xml` only exists in `dist/`, so `pnpm dev` answers it with the SPA fallback:
+  the home page as `text/html`, still with status 200. Check the feed on
+  `pnpm serve:dist`.

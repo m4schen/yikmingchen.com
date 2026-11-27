@@ -44,8 +44,8 @@ async function buildBlogRSS() {
           const raw = await fs.readFile(i, 'utf-8')
           const { data, content } = matter(raw)
 
-          // Same rules as ListPosts: skip templates/drafts; untagged posts count as English
-          if (data.draft || String(data.title).includes('[TEMPLATE]') || (data.lang && data.lang !== 'en'))
+          // Same rules as ListPosts: skip templates and drafts; every language is in the feed
+          if (data.draft || String(data.title).includes('[TEMPLATE]'))
             return
 
           const html = markdown.render(content)
